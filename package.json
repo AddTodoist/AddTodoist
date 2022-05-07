@@ -2,11 +2,11 @@
   "name": "savetotodoist",
   "type": "module",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "private": true,
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "start": "node src/index.js",
+    "start": "node dist/index.js",
     "build": "esbuild src/index.ts --outfile=dist/index.js --platform=node --minify --format=esm"
   },
   "author": "David Jiménez",
