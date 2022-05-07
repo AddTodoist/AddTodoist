@@ -1,7 +1,11 @@
 // @ts-ignore
 import { Autohook } from "twitter-autohook";
-import { mentionedIn, directMessageRecieved } from "./utils.js";
-import { ResponseTwit } from "./Twit.js";
+
+import {
+  handleDirectMessage,
+  directMessageRecieved,
+  getMessage,
+} from "./DirectMessages.js";
 
 export async function createAutohook() {
   try {
@@ -31,16 +35,9 @@ export async function createAutohook() {
 
 export function configureListeners(webhook) {
   webhook.on("event", async (event) => {
-    //console.log(event);
     if (directMessageRecieved(event)) {
       const message = getMessage(event);
-      console.log(message);
-      console.log(event.direct_message_events[0]);
-      console.log("recieved");
+      return handleDirectMessage(message);
     }
   });
 }
-
-const getMessage = (event) => event.direct_message_events[0].message_create;
-
-const handleDirectMessage = () => {};
