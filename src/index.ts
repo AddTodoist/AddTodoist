@@ -6,9 +6,6 @@ import axios from "axios";
 import { sendDirectMessage } from "./TWAPI.js";
 import Client from "todoist-rest-client";
 console.clear();
-console.log(
-  `https://todoist.com/oauth/authorize?client_id=${process.env.TODOIST_CLIENT_ID}&scope=data:read_write&state=secretstring`
-);
 
 import { createAutohook, configureListeners } from "./AutohookUtils.js";
 
@@ -32,7 +29,6 @@ const server = createServer(async (req, res) => {
     res.end();
 
     const { data } = await axios.post(url.href);
-    console.log(data);
     // TODO
     // crear usuario en BBDD: {userId: state, accessToken: data.access_token, projectId: noséxd}
 
