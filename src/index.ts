@@ -1,3 +1,7 @@
+import fkill from "fkill";
+const PORT = process.env.PORT || 3000;
+await fkill(`:${PORT}`);
+
 process.on("uncaughtException", (err) => {
   server.close();
   console.log(err);
@@ -63,10 +67,8 @@ const server = createServer(async (req, res) => {
   } else return res.writeHead(301, { Location: "https://dubis.dev" }).end();
 });
 
-const port = process.env.PORT || 3000;
-
-server.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+server.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });
 
 const projectConfigHeader = `
