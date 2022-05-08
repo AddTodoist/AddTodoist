@@ -1,5 +1,4 @@
 import esbuild from "esbuild";
-
 esbuild
   .build({
     platform: "node",
