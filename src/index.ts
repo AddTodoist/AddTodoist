@@ -13,6 +13,8 @@ import { createAutohook, configureListeners } from "./AutohookUtils.js";
 // configureListeners(webhook);
 
 const server = createServer(async (req, res) => {
+  console.log(req.url);
+
   const { pathname: path, query } = URL.parse(req.url as string, true);
 
   if (path === "/redirect/oauth") {
