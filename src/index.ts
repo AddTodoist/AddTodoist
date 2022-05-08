@@ -1,8 +1,10 @@
 process.on("uncaughtException", (err) => {
+  server.close();
   console.log(err);
   process.exit(1);
 });
 process.on("SIGTERM", () => {
+  server.close();
   process.exit(0);
 });
 
