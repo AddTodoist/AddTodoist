@@ -17,6 +17,7 @@ esbuild
       "todoist-rest-client",
       "twitter-api-v2",
       "http-terminator",
+      "fkill",
     ],
   })
   .catch(() => process.exit(1));

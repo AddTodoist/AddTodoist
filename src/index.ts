@@ -17,6 +17,10 @@ process.on("SIGTERM", async () => {
   await httpTerminator.terminate();
   process.exit(0);
 });
+process.on("SIGKILL", async () => {
+  await httpTerminator.terminate();
+  process.exit(0);
+});
 
 import dotenv from "dotenv";
 dotenv.config();
