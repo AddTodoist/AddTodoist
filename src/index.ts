@@ -1,7 +1,7 @@
 import fkill from "fkill";
 const PORT = process.env.PORT || 3000;
 try {
-  await fkill(`:${PORT}`);
+  await fkill(`:${PORT}`, { force: true });
 } catch {
   console.log(`Port ${PORT} is not in use`);
 }
@@ -27,8 +27,8 @@ console.clear();
 
 import { createAutohook, configureListeners } from "./AutohookUtils.js";
 
-// const webhook = await createAutohook();
-// configureListeners(webhook);
+const webhook = await createAutohook();
+configureListeners(webhook);
 
 const server = createServer(async (req, res) => {
   const { pathname: path, query } = URL.parse(req.url as string, true);
