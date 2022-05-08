@@ -3,9 +3,8 @@ import { createHttpTerminator } from "http-terminator";
 
 const PORT = process.env.PORT || 3000;
 try {
-  await fkill(`:${PORT}`, { force: true });
+  await fkill(`:${PORT}`, { force: true, silent: true });
 } catch (err) {
-  console.log(err);
   console.log(`Port ${PORT} is not in use`);
 }
 
