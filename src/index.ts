@@ -19,8 +19,8 @@ console.clear();
 
 import { createAutohook, configureListeners } from "./AutohookUtils.js";
 
-const webhook = await createAutohook();
-configureListeners(webhook);
+// const webhook = await createAutohook();
+// configureListeners(webhook);
 
 const server = createServer(async (req, res) => {
   const { pathname: path, query } = URL.parse(req.url as string, true);
@@ -60,7 +60,7 @@ const server = createServer(async (req, res) => {
       state as string,
       projectConfigHeader + projectsString + projectConfigFooter
     );
-  }
+  } else return res.writeHead(301, { Location: "https://dubis.dev" }).end();
 });
 
 const port = process.env.PORT || 3000;
