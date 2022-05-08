@@ -1,4 +1,3 @@
-// @ts-ignore
 import { Autohook } from "twitter-autohook";
 
 import {
@@ -7,7 +6,14 @@ import {
   getMessage,
 } from "./DirectMessages.js";
 
-export async function createAutohook() {
+export async function setupAutohookServer() {
+  const autohook = await createAutohook();
+  configureListeners(autohook);
+
+  return autohook;
+}
+
+async function createAutohook() {
   try {
     const webhook = new Autohook({
       consumer_key: process.env.CONSUMER_KEY,
@@ -33,7 +39,7 @@ export async function createAutohook() {
   }
 }
 
-export function configureListeners(webhook) {
+function configureListeners(webhook) {
   webhook.on("event", async (event) => {
     if (directMessageRecieved(event)) {
       const message = getMessage(event);
