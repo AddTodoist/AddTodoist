@@ -1,6 +1,10 @@
 import fkill from "fkill";
 const PORT = process.env.PORT || 3000;
-await fkill(`:${PORT}`);
+try {
+  await fkill(`:${PORT}`);
+} catch {
+  console.log(`Port ${PORT} is not in use`);
+}
 
 process.on("uncaughtException", (err) => {
   server.close();
