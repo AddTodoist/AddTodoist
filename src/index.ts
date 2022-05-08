@@ -1,23 +1,16 @@
 import fkill from "fkill";
-import { createHttpTerminator } from "http-terminator";
 
 const PORT = process.env.PORT || 3000;
 try {
-  await fkill(`:${PORT}`, { force: true, silent: true });
+  await fkill(`:${PORT}`);
 } catch (err) {
   console.log(`Port ${PORT} is not in use`);
 }
 
-process.on("uncaughtException", async (err) => {
-  await httpTerminator.terminate();
+process.on("uncaughtException", async () => {
   process.exit(1);
 });
 process.on("SIGTERM", async () => {
-  await httpTerminator.terminate();
-  process.exit(0);
-});
-process.on("SIGKILL", async () => {
-  await httpTerminator.terminate();
   process.exit(0);
 });
 
@@ -79,8 +72,6 @@ const server = createServer(async (req, res) => {
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
-
-const httpTerminator = createHttpTerminator({ server });
 
 const projectConfigHeader = `
 🔴 Its you again! 🔴\n\
