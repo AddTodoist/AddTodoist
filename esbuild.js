@@ -16,7 +16,7 @@ esbuild
       "jsonwebtoken",
       "todoist-rest-client",
       "twitter-api-v2",
-      "fkill",
+      "http-terminator",
     ],
   })
   .catch(() => process.exit(1));

@@ -23,6 +23,7 @@
     "axios": "^0.27.2",
     "dotenv": "16.0.0",
     "fkill": "^8.0.1",
+    "http-terminator": "^3.2.0",
     "jsonwebtoken": "8.5.1",
     "todoist-rest-client": "3.0.10",
     "twitter-api-v2": "1.12.0",
