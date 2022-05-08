@@ -32,47 +32,51 @@ export async function setupOAuthServer() {
 
 const requestListener: RequestListener = async (req, res) => {
   const { pathname: path, query } = URL.parse(req.url as string, true);
+  // only accept reuests to this
+  if (path !== "/redirect/oauth") {
+    return res.writeHead(301, { Location: "https://dubis.dev" }).end();
+  }
 
-  if (path === "/redirect/oauth") {
-    const { code, state } = query;
-    const twId = state as string;
+  const { code, state } = query;
+  if (!code || !state) return res.end("Invalid request");
 
-    res.writeHead(301, { Location: "https://twitter.com/messages" });
-    res.end();
+  const twId = state as string;
 
-    const token = await getUserToken(code as string);
+  res.writeHead(301, { Location: "https://twitter.com/messages" });
+  res.end();
 
-    if (!token) {
-      return await sendDirectMessage(twId, TEXTS.GENERAL_WRONG + ": err 10");
-    } else {
-      DB.push({ id: twId, token, projectId: 0 });
-      // console.log(DB);
-      // TODO
-      // crear usuario en BBDD: {userId: twitterUserId, accessToken: data.access_token, projectId: noséxd}
-      await sendDirectMessage(twId, TEXTS.ACCOUNT_LINKED);
-    }
+  const token = await getUserToken(code as string);
 
-    let projects;
-    try {
-      const todoistClient = Client(token);
-      projects = await todoistClient.project.getAll();
+  if (!token) {
+    return await sendDirectMessage(twId, TEXTS.GENERAL_WRONG + ": err 10");
+  } else {
+    DB.push({ id: twId, token, projectId: 0 });
+    // console.log(DB);
+    // TODO
+    // crear usuario en BBDD: {userId: twitterUserId, accessToken: data.access_token, projectId: noséxd}
+    await sendDirectMessage(twId, TEXTS.ACCOUNT_LINKED);
+  }
 
-      //save inbox id to db
-      const userIndex = DB.findIndex((user) => user.id === twId);
-      if (userIndex !== -1) DB[userIndex]["projectId"] = projects[0].id;
-    } catch {
-      return await sendDirectMessage(twId, TEXTS.GENERAL_WRONG + ": err 12");
-    }
+  let projects;
+  try {
+    const todoistClient = Client(token);
+    projects = await todoistClient.project.getAll();
 
-    const projectsString = projects
-      .map((project, index) => `${index} - ${project.name}`)
-      .join("\n");
+    //save inbox id to db
+    const userIndex = DB.findIndex((user) => user.id === twId);
+    if (userIndex !== -1) DB[userIndex]["projectId"] = projects[0].id;
+  } catch {
+    return await sendDirectMessage(twId, TEXTS.GENERAL_WRONG + ": err 12");
+  }
 
-    return await sendDirectMessage(
-      twId,
-      TEXTS.PROJECT_CONFIG_HEADER + projectsString + TEXTS.PROJECT_CONFIG_FOOTER
-    );
-  } else return res.writeHead(301, { Location: "https://dubis.dev" }).end();
+  const projectsString = projects
+    .map((project, index) => `${index} - ${project.name}`)
+    .join("\n");
+
+  return await sendDirectMessage(
+    twId,
+    TEXTS.PROJECT_CONFIG_HEADER + projectsString + TEXTS.PROJECT_CONFIG_FOOTER
+  );
 };
 
 export const getUserToken = async (authCode: string) => {
@@ -84,9 +88,11 @@ export const getUserToken = async (authCode: string) => {
   url.searchParams.append("client_secret", clientSecret);
   url.searchParams.append("code", authCode);
 
-  const { data } = await axios.post(url.href);
-
-  console.log(data);
-
-  return data.access_token || null;
+  try {
+    const { data } = await axios.post(url.href);
+    return data.access_token || null;
+  } catch {
+    console.log("Something went wrong in getUserToken");
+    return null;
+  }
 };
