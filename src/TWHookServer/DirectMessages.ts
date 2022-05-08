@@ -1,6 +1,7 @@
 import { sendDirectMessage } from "../TWAPI.js";
 import Client from "todoist-rest-client";
 import TEXTS, { generateInitText } from "./Texts.js";
+import { getProjectNumFromMessage } from "./utils.js";
 
 type TWDirectMessage = {
   target: Object;
@@ -47,10 +48,11 @@ export const handleDirectMessage = async (message: TWDirectMessage) => {
 const handleProject = async (message: TWDirectMessage) => {
   const userId = message.sender_id;
   const { text, entities } = message.message_data;
-  const projectNum = text.split(" ")[1];
-  const surenum = +projectNum;
-  if (isNaN(surenum))
+  const [isValidProjectNum, projectNum] = getProjectNumFromMessage(text);
+
+  if (!isValidProjectNum) {
     return await sendDirectMessage(userId, TEXTS.INVALID_PROJECT_NUM);
+  }
 
   const token = DB.find((user) => user.id === userId)?.token;
 
@@ -66,14 +68,15 @@ const handleProject = async (message: TWDirectMessage) => {
   const currentProject = projects.find(
     (project) => project.id === projectId
   )?.name;
-  if (surenum >= projects.length) {
+
+  if (projectNum >= projects.length) {
     return await sendDirectMessage(
       userId,
       TEXTS.INVALID_PROJECT_NUM + `Current project is:\n${currentProject}`
     );
   }
 
-  const project = projects[surenum];
+  const project = projects[projectNum];
 
   const dbUserIndex = DB.findIndex((user) => user.id === userId);
   DB[dbUserIndex]["projectId"] = project.id;
