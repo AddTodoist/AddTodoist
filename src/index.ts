@@ -9,12 +9,10 @@ console.clear();
 
 import { createAutohook, configureListeners } from "./AutohookUtils.js";
 
-// const webhook = await createAutohook();
-// configureListeners(webhook);
+const webhook = await createAutohook();
+configureListeners(webhook);
 
 const server = createServer(async (req, res) => {
-  console.log(req.url);
-
   const { pathname: path, query } = URL.parse(req.url as string, true);
 
   if (path === "/redirect/oauth") {
