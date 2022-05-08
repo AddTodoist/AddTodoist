@@ -1,3 +1,11 @@
+process.on("uncaughtException", (err) => {
+  console.log(err);
+  process.exit(1);
+});
+process.on("SIGTERM", () => {
+  process.exit(0);
+});
+
 import dotenv from "dotenv";
 dotenv.config();
 import { createServer } from "http";
