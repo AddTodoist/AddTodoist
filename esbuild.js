@@ -17,6 +17,7 @@ esbuild
       "todoist-rest-client",
       "twitter-api-v2",
       "fkill",
+      "mongoose",
     ],
   })
   .catch(() => process.exit(1));
