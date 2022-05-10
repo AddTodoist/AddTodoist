@@ -2,6 +2,9 @@ import { sendDirectMessage } from "../TWAPI.js";
 import Client from "todoist-rest-client";
 import TEXTS, { generateInitText } from "./Texts.js";
 import { getProjectNumFromMessage } from "./utils.js";
+import UserInfo from "../DB/index.js";
+import { decodeUser, encodeUser, hashId } from "../DB/encrypts.js";
+import { APIProjectObject } from "todoist-rest-client/dist/definitions";
 
 type TWDirectMessage = {
   target: Object;
@@ -14,7 +17,6 @@ type TWDirectMessage = {
 
 const VALID_COMMANDS = [
   //"/help",
-  "/DB",
   "/init",
   "/project",
   //"/getconfig",
@@ -40,8 +42,6 @@ export const handleDirectMessage = async (message: TWDirectMessage) => {
       return await sendDirectMessage(userId, generateInitText(userId));
     case "/project":
       return handleProject(message);
-    case "/DB":
-      return console.log(DB);
   }
 };
 
@@ -54,16 +54,18 @@ const handleProject = async (message: TWDirectMessage) => {
     return await sendDirectMessage(userId, TEXTS.INVALID_PROJECT_NUM);
   }
 
-  const token = DB.find((user) => user.id === userId)?.token;
+  const user = await UserInfo.findOne({ twId: hashId(userId) });
+  if (!user) return await sendDirectMessage(userId, TEXTS.NO_TOKEN);
 
-  if (!token) {
+  const { apiToken, projectId } = decodeUser(user.userInfo);
+
+  let projects: APIProjectObject[];
+  try {
+    const todoistClient = Client(apiToken);
+    projects = await todoistClient.project.getAll();
+  } catch (e) {
     return await sendDirectMessage(userId, TEXTS.NO_TOKEN);
   }
-
-  const projectId = DB.find((user) => user.id === userId)?.projectId;
-
-  const todoistClient = Client(token);
-  const projects = await todoistClient.project.getAll();
 
   const currentProject = projects.find(
     (project) => project.id === projectId
@@ -78,16 +80,18 @@ const handleProject = async (message: TWDirectMessage) => {
 
   const project = projects[projectNum];
 
-  const dbUserIndex = DB.findIndex((user) => user.id === userId);
-  DB[dbUserIndex]["projectId"] = project.id;
+  user.userInfo = encodeUser({
+    apiToken,
+    projectId: project.id,
+  });
+
+  await user.save();
 
   return await sendDirectMessage(
     userId,
-    TEXTS.TWEETS_SAVED_TO + `${project.name} 🔴`
+    TEXTS.TWEETS_SAVED_TO + `${project.name}`
   );
 };
 
 export const getMessage = (event): TWDirectMessage =>
   event.direct_message_events[0].message_create;
-
-export const DB = [{ id: "1", token: "test", projectId: 1234 }];
