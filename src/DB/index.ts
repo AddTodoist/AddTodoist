@@ -12,6 +12,6 @@ const userSchema = new mongoose.Schema<IUserInfo>({
   userInfo: String,
 });
 
-const UserInfo = mongoose.model<IUserInfo>("userInfo", userSchema);
+const UserInfo = mongoose.model<IUserInfo>("users", userSchema);
 
 export default UserInfo;
