@@ -53,9 +53,14 @@ const requestListener: RequestListener = async (req, res) => {
     return await sendDirectMessage(twId, TEXTS.GENERAL_WRONG + ": err 9");
   }
 
+  let userInfo = encodeUser({
+    apiToken: token,
+    projectId: 0,
+  });
+
   const user = new UserInfo({
     _id: hashId(twId),
-    userInfo: "test",
+    userInfo: userInfo,
   });
 
   try {
@@ -81,7 +86,7 @@ const requestListener: RequestListener = async (req, res) => {
     return await sendDirectMessage(twId, TEXTS.GENERAL_WRONG + ": err 11");
   }
 
-  const userInfo = encodeUser({
+  userInfo = encodeUser({
     apiToken: token,
     projectId: projects[0].id,
   });
