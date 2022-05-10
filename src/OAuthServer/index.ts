@@ -7,7 +7,7 @@ import axios from "axios";
 import TEXTS from "./Texts.js";
 import UserInfo from "../DB/index.js";
 import { APIProjectObject } from "todoist-rest-client/dist/definitions";
-import { encodeUser } from "../DB/encrypts.js";
+import { encodeUser, hashId } from "../DB/encrypts.js";
 
 export async function setupOAuthServer() {
   const PORT = process.env.PORT || 3000;
@@ -54,7 +54,7 @@ const requestListener: RequestListener = async (req, res) => {
   }
 
   const user = new UserInfo({
-    _id: twId,
+    _id: hashId(twId),
     userInfo: "test",
   });
 
@@ -70,9 +70,6 @@ const requestListener: RequestListener = async (req, res) => {
     }
   }
 
-  // console.log(DB);
-  // TODO
-  // crear usuario en BBDD: {userId: twitterUserId, accessToken: data.access_token, projectId: noséxd}
   await sendDirectMessage(twId, TEXTS.ACCOUNT_LINKED);
 
   let projects: APIProjectObject[];
@@ -85,7 +82,6 @@ const requestListener: RequestListener = async (req, res) => {
   }
 
   const userInfo = encodeUser({
-    twitterId: twId,
     apiToken: token,
     projectId: projects[0].id,
   });
