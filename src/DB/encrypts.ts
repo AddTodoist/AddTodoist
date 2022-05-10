@@ -12,5 +12,5 @@ export const hashId = (id: string) =>
 export const encodeUser = (user: User) =>
   jwt.sign(user, "secret", { noTimestamp: true });
 
-export const decodeUser = (encodedUser: string) =>
-  jwt.verify(encodedUser, "secret");
+export const decodeUser = (encodedUser: string): User =>
+  jwt.verify(encodedUser, "secret") as User;
