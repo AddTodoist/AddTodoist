@@ -4,8 +4,10 @@ import URL from "url";
 import { sendDirectMessage } from "../TWAPI.js";
 import Client from "todoist-rest-client";
 import axios from "axios";
-import { DB } from "../TWHookServer/DirectMessages.js";
 import TEXTS from "./Texts.js";
+import UserInfo from "../DB/index.js";
+import { APIProjectObject } from "todoist-rest-client/dist/definitions";
+import { encodeUser } from "../DB/encrypts.js";
 
 export async function setupOAuthServer() {
   const PORT = process.env.PORT || 3000;
@@ -48,23 +50,50 @@ const requestListener: RequestListener = async (req, res) => {
   const token = await getUserToken(code as string);
 
   if (!token) {
-    return await sendDirectMessage(twId, TEXTS.GENERAL_WRONG + ": err 10");
-  } else {
-    DB.push({ id: twId, token, projectId: 0 });
-    // console.log(DB);
-    // TODO
-    // crear usuario en BBDD: {userId: twitterUserId, accessToken: data.access_token, projectId: noséxd}
-    await sendDirectMessage(twId, TEXTS.ACCOUNT_LINKED);
+    return await sendDirectMessage(twId, TEXTS.GENERAL_WRONG + ": err 9");
   }
 
-  let projects;
+  const user = new UserInfo({
+    _id: twId,
+    userInfo: "test",
+  });
+
+  try {
+    await user.save();
+  } catch (err) {
+    if (err.code === 11000) {
+      user.isNew = false;
+      await user.save();
+    } else {
+      console.log(new Date(), err);
+      return await sendDirectMessage(twId, TEXTS.GENERAL_WRONG + ": err 10");
+    }
+  }
+
+  // console.log(DB);
+  // TODO
+  // crear usuario en BBDD: {userId: twitterUserId, accessToken: data.access_token, projectId: noséxd}
+  await sendDirectMessage(twId, TEXTS.ACCOUNT_LINKED);
+
+  let projects: APIProjectObject[];
+
   try {
     const todoistClient = Client(token);
     projects = await todoistClient.project.getAll();
+  } catch {
+    return await sendDirectMessage(twId, TEXTS.GENERAL_WRONG + ": err 11");
+  }
 
-    //save inbox id to db
-    const userIndex = DB.findIndex((user) => user.id === twId);
-    if (userIndex !== -1) DB[userIndex]["projectId"] = projects[0].id;
+  const userInfo = encodeUser({
+    twitterId: twId,
+    apiToken: token,
+    projectId: projects[0].id,
+  });
+
+  user.userInfo = userInfo;
+
+  try {
+    await user.save();
   } catch {
     return await sendDirectMessage(twId, TEXTS.GENERAL_WRONG + ": err 12");
   }
@@ -73,7 +102,7 @@ const requestListener: RequestListener = async (req, res) => {
     .map((project, index) => `${index} - ${project.name}`)
     .join("\n");
 
-  return await sendDirectMessage(
+  await sendDirectMessage(
     twId,
     TEXTS.PROJECT_CONFIG_HEADER + projectsString + TEXTS.PROJECT_CONFIG_FOOTER
   );
