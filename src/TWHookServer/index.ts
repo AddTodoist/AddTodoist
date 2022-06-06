@@ -1,5 +1,4 @@
 import { Autohook } from "twitter-autohook";
-
 import {
   handleDirectMessage,
   directMessageRecieved,
@@ -15,21 +14,15 @@ export async function setupAutohookServer() {
 
 async function createAutohook() {
   try {
-    const webhook = new Autohook({
-      consumer_key: process.env.CONSUMER_KEY,
-      consumer_secret: process.env.CONSUMER_SECRET,
-      token: process.env.OAUTH_TOKEN,
-      token_secret: process.env.OAUTH_TOKEN_SECRET,
-      env: process.env.TW_ENV,
-    });
+    const webhook = new Autohook();
 
     await webhook.removeWebhooks();
     await webhook.start();
 
     // Subscribes to your own user's activity
     await webhook.subscribe({
-      oauth_token: process.env.OAUTH_TOKEN,
-      oauth_token_secret: process.env.OAUTH_TOKEN_SECRET,
+      oauth_token: process.env.TWITTER_ACCESS_TOKEN || "",
+      oauth_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET || "",
     });
 
     return webhook;

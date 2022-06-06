@@ -4,10 +4,10 @@ dotenv.config();
 
 const userClient = new TwitterApi({
   // @ts-ignore
-  appKey: process.env.CONSUMER_KEY,
-  appSecret: process.env.CONSUMER_SECRET,
-  accessToken: process.env.OAUTH_TOKEN,
-  accessSecret: process.env.OAUTH_TOKEN_SECRET,
+  appKey: process.env.TWITTER_CONSUMER_KEY,
+  appSecret: process.env.TWITTER_CONSUMER_SECRET,
+  accessToken: process.env.TWITTER_ACCESS_TOKEN,
+  accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
 });
 
 export const tweet = async (status: string) => {
