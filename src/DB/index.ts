@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 await mongoose.connect(process.env.MONGO_DB || "");
 
-interface IUserInfo {
+export interface IUserInfo {
   _id: string;
   userInfo: string;
 }
