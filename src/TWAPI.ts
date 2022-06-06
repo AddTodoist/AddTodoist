@@ -40,3 +40,24 @@ export const sendDirectMessage = async (userId: string, message: string) => {
     console.log(e);
   }
 };
+
+export const getOriginalTweet = async (tweetId: string) => {
+  try {
+
+    const mentionedInTweet = await userClient.v2.singleTweet(tweetId, {
+      "tweet.fields": "conversation_id"
+    });
+
+    const originalTweet = await userClient.v2.singleTweet(mentionedInTweet.data.conversation_id || "", {
+      "tweet.fields": ["author_id"]
+    });
+
+    const url = `https://twitter.com/${originalTweet.data.author_id}/status/${originalTweet.data.id}`;
+    
+    return {url, text: originalTweet.data.text};
+
+  } catch (e) {
+    console.log("Couldn Get Original Tweet :(");
+    console.log(e);
+  }
+}

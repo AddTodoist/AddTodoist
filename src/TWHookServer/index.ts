@@ -4,6 +4,8 @@ import {
   directMessageRecieved,
   getMessage,
 } from "./DirectMessages.js";
+import { handleMention } from "./Mentions.js";
+import { mentionedIn } from "./utils.js";
 
 export async function setupAutohookServer() {
   const autohook = await createAutohook();
@@ -37,6 +39,9 @@ function configureListeners(webhook) {
     if (directMessageRecieved(event)) {
       const message = getMessage(event);
       return handleDirectMessage(message);
+    }
+    if (mentionedIn(event)) {
+      return handleMention(event)
     }
   });
 }
