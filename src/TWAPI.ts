@@ -19,10 +19,26 @@ export const tweet = async (status: string) => {
   }
 };
 
-export const responseTweet = async (tweet) => {
+/**
+ * Returns an array of userIds that are mentioned in the tweet but are not the original mentioner
+ * @param tweet
+ * @returns 
+ */
+const getExcludedFromReplyUsers = (tweet) => {
+  const userMentions = tweet.entities.user_mentions;
+  const userIds = userMentions.map((user) => user.id_str).filter((id) => id !== tweet.user.id_str);
+  return userIds;
+};
+
+export const responseTweet = async (tweet, response: string) => {
   const { id_str } = tweet;
   try {
-    await userClient.v1.reply('response', id_str);
+    await userClient.v2.reply(response, id_str, {
+      reply: {
+        exclude_reply_user_ids: getExcludedFromReplyUsers(tweet),
+        in_reply_to_tweet_id: id_str,
+      }
+    });
   } catch (e) {
     console.log('Couldn Response :(');
     console.log(e);
@@ -58,4 +74,9 @@ export const getOriginalTweet = async (tweetId: string) => {
     console.log('Couldn Get Original Tweet :(. Err: ', e);
     console.log(e);
   }
+};
+
+export const getResponseTweet = async (tweetId: string, userId: string) => {
+  const url = `https://twitter.com/${userId}/status/${tweetId}`;
+  return url;
 };
