@@ -7,9 +7,13 @@ import { IUserInfo } from "../DB/index.js";
 // KNOWN ERRORS
 // FAIL when mentioned in quoted tweet
 
-export const mentionedIn = (event) => {
-  return // TODO - check mention from event
-};
+const itIsMe = (event) =>
+  event.tweet_create_events[0].user.id_str === "1522266105271701505";
+
+export const mentionedIn = (event) => event.tweet_create_events // is a tweet create event
+  && event.user_has_blocked === "false"
+  && event.tweet_create_events[0].in_reply_to_status_id_str // its a reply (to a tweet, a thread...)
+  && !itIsMe(event);
 
 export const handleMention = async (event) => {
 
@@ -27,13 +31,13 @@ export const handleMention = async (event) => {
   // console.log("lets handle a", action)
   switch (action[0].toLowerCase()) {
     case "#thread":
-      return handleThread({event, user});
+      return handleThread({ event, user });
     case "#tweets":
-      return handleTweet({text, user});
+      return handleTweet({ text, user });
   }
 };
 
-const handleThread = async ({event, user}: {event, user: IUserInfo}) => {
+const handleThread = async ({ event, user }: { event, user: IUserInfo }) => {
   // get top tweet of thread
   const tweetId = event.tweet_create_events[0].in_reply_to_status_id_str
   const originalTweetInfo = await getOriginalTweet(tweetId)
@@ -53,15 +57,15 @@ const handleThread = async ({event, user}: {event, user: IUserInfo}) => {
 
 }
 
-const handleTweet = async ({text, user}: {text: string, user: IUserInfo}) => {
+const handleTweet = async ({ text, user }: { text: string, user: IUserInfo }) => {
 
   // get twit link
   // get labels
   // decode user info
 
   // add to TODOIST DB
-    // dar forma al mensaje [name](link)
-    // añadirlo con labels
+  // dar forma al mensaje [name](link)
+  // añadirlo con labels
   // send response
 
 

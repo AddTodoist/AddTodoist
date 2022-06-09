@@ -4,8 +4,7 @@ import {
   directMessageRecieved,
   getMessage,
 } from "./DirectMessages.js";
-import { handleMention } from "./Mentions.js";
-import { mentionedIn } from "./utils.js";
+import { handleMention, mentionedIn } from "./Mentions.js";
 
 export async function setupAutohookServer() {
   const autohook = await createAutohook();

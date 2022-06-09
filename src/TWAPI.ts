@@ -53,11 +53,11 @@ export const getOriginalTweet = async (tweetId: string) => {
     });
 
     const url = `https://twitter.com/${originalTweet.data.author_id}/status/${originalTweet.data.id}`;
-    
-    return {url, text: originalTweet.data.text};
+
+    return { url, text: originalTweet.data.text };
 
   } catch (e) {
-    console.log("Couldn Get Original Tweet :(");
+    console.log("Couldn Get Original Tweet :(. Err: ", e);
     console.log(e);
   }
 }
