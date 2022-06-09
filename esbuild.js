@@ -1,4 +1,8 @@
 import esbuild from 'esbuild';
+import fs from 'fs';
+const json = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+let deps = Object.keys(json.dependencies);
+
 esbuild
   .build({
     platform: 'node',
@@ -9,15 +13,6 @@ esbuild
     format: 'esm',
     target: 'node16',
     outfile: 'dist/index.js',
-    external: [
-      'twitter-autohook',
-      'axios',
-      'dotenv',
-      'jsonwebtoken',
-      'todoist-rest-client',
-      'twitter-api-v2',
-      'fkill',
-      'mongoose',
-    ],
+    external: deps,
   })
   .catch(() => process.exit(1));
