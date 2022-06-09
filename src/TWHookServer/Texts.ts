@@ -1,8 +1,8 @@
 enum TWHookServerTexts {
-  INVALID_PROJECT_NUM = "🔴 Invalid project number 🔴\n",
-  INIT_TEXT = "Init",
-  NO_TOKEN = "🔴 No token configured 🔴\nPlease run\n/init\ncommand",
-  TWEETS_SAVED_TO = `🔴 Now the tweets will be saved to: 🔴\n`,
+  INVALID_PROJECT_NUM = '🔴 Invalid project number 🔴\n',
+  INIT_TEXT = 'Init',
+  NO_TOKEN = '🔴 No token configured 🔴\nPlease run\n/init\ncommand',
+  TWEETS_SAVED_TO = '🔴 Now the tweets will be saved to: 🔴\n',
 }
 
 export const generateInitText = (userId: string) => `

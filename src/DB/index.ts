@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-await mongoose.connect(process.env.MONGO_DB || "");
+await mongoose.connect(process.env.MONGO_DB || '');
 
 export interface IUserInfo {
   _id: string;
@@ -12,6 +12,6 @@ const userSchema = new mongoose.Schema<IUserInfo>({
   userInfo: String,
 });
 
-const UserInfo = mongoose.model<IUserInfo>("users", userSchema);
+const UserInfo = mongoose.model<IUserInfo>('users', userSchema);
 
 export default UserInfo;

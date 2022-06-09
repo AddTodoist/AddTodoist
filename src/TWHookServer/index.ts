@@ -1,10 +1,10 @@
-import { Autohook } from "twitter-autohook";
+import { Autohook } from 'twitter-autohook';
 import {
   handleDirectMessage,
   directMessageRecieved,
   getMessage,
-} from "./DirectMessages.js";
-import { handleMention, mentionedIn } from "./Mentions.js";
+} from './DirectMessages.js';
+import { handleMention, mentionedIn } from './Mentions.js';
 
 export async function setupAutohookServer() {
   const autohook = await createAutohook();
@@ -22,8 +22,8 @@ async function createAutohook() {
 
     // Subscribes to your own user's activity
     await webhook.subscribe({
-      oauth_token: process.env.TWITTER_ACCESS_TOKEN || "",
-      oauth_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET || "",
+      oauth_token: process.env.TWITTER_ACCESS_TOKEN || '',
+      oauth_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET || '',
     });
 
     return webhook;
@@ -34,13 +34,13 @@ async function createAutohook() {
 }
 
 function configureListeners(webhook) {
-  webhook.on("event", async (event) => {
+  webhook.on('event', async (event) => {
     if (directMessageRecieved(event)) {
       const message = getMessage(event);
       return handleDirectMessage(message);
     }
     if (mentionedIn(event)) {
-      return handleMention(event)
+      return handleMention(event);
     }
   });
 }

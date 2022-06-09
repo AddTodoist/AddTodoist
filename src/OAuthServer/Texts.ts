@@ -1,6 +1,6 @@
 enum OAuthServerTexts {
-  GENERAL_WRONG = "🔴 Something went wrong 🔴",
-  ACCOUNT_LINKED = "🎉 Your account has been linked! 🎉",
+  GENERAL_WRONG = '🔴 Something went wrong 🔴',
+  ACCOUNT_LINKED = '🎉 Your account has been linked! 🎉',
 
   PROJECT_CONFIG_HEADER = `
 🔴 Welcome again! 🔴\n\
