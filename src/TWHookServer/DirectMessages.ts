@@ -25,14 +25,14 @@ const VALID_COMMANDS = [
 
 export const directMessageRecieved = (event) => (
   event.direct_message_events
-  && event.for_user_id === '1522266105271701505'
+  && event.for_user_id === process.env.TW_ACC_ID
   && event.direct_message_events[0].type === 'message_create'
 );
 
 export const handleDirectMessage = async (message: TWDirectMessage) => {
   const userId = message.sender_id;
   const { text, entities } = message.message_data;
-  const command = text.split(' ')[0];
+  const command = text.split(' ')[0].toLowerCase();
   if (!VALID_COMMANDS.includes(command)) return;
 
   switch (command) {
