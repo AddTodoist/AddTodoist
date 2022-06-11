@@ -15,10 +15,12 @@ export async function setupAutohookServer() {
 
 async function createAutohook() {
   try {
-    const webhook = new Autohook();
+    const webhook = new Autohook({
+      port: 5000,
+    });
 
     await webhook.removeWebhooks();
-    await webhook.start();
+    await webhook.start(process.env.AUTOHOOK_URL);
 
     // Subscribes to your own user's activity
     await webhook.subscribe({
