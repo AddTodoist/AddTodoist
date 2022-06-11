@@ -2,12 +2,13 @@
   "name": "savetotodoist",
   "type": "module",
   "version": "1.0.0",
-  "main": "dist/index.js",
   "private": true,
   "scripts": {
     "lint": "eslint src/**",
-    "dev": "nodemon src/index.ts",
+    "dev": "concurrently \"nodemon src/server-oauth.ts\" \"nodemon src/server-webhook.ts\"",
     "start": "node dist/index.js",
+    "start:oauth": "node dist/server-oauth.js",
+    "start:webhook": "node dist/server-webhook.js",
     "build": "node esbuild.js"
   },
   "author": "David Jiménez",
@@ -18,6 +19,7 @@
     "@types/twitter-autohook": "1.7.0",
     "@typescript-eslint/eslint-plugin": "5.27.1",
     "@typescript-eslint/parser": "5.27.1",
+    "concurrently": "7.2.1",
     "esbuild": "0.14.43",
     "eslint": "8.17.0",
     "eslint-config-airbnb-base": "15.0.0",

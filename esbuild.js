@@ -7,12 +7,12 @@ esbuild
   .build({
     platform: 'node',
     logLevel: 'info',
-    entryPoints: ['src/index.ts'],
+    entryPoints: ['src/server-oauth.ts', 'src/server-webhook.ts' ],
     bundle: true,
     minify: true,
     format: 'esm',
     target: 'node16',
-    outfile: 'dist/index.js',
+    outdir: 'dist',
     external: deps,
   })
   .catch(() => process.exit(1));
