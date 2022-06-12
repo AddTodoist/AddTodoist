@@ -21,7 +21,10 @@ async function createAutohook() {
 
     await webhook.removeWebhooks();
     webhook.startServer();
-    
+
+    // wait 5 seconds the server to start
+    await new Promise(res => setTimeout(res, 5000));
+
     await webhook.start(process.env.AUTOHOOK_URL);
 
     // Subscribes to your own user's activity
