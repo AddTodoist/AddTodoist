@@ -20,6 +20,8 @@ async function createAutohook() {
     });
 
     await webhook.removeWebhooks();
+    webhook.startServer();
+    
     await webhook.start(process.env.AUTOHOOK_URL);
 
     // Subscribes to your own user's activity
