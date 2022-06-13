@@ -1,4 +1,3 @@
-import fkill from 'fkill';
 import { createServer, RequestListener } from 'http';
 import URL from 'url';
 import Client from 'todoist-rest-client';
@@ -10,20 +9,13 @@ import UserInfo from '../DB/index.js';
 import { encodeUser, hashId } from '../DB/encrypts.js';
 
 export async function setupOAuthServer() {
-  const PORT = process.env.PORT || 3000;
-  try {
-    await fkill(`:${PORT}`);
-  } catch (err) {
-    console.log(`Port ${PORT} is not in use`);
-  }
-
   const server = createServer(requestListener);
 
   await new Promise<void>((resolve, reject) => {
     server
       .listen(3000)
       .once('listening', () => {
-        console.log(`OAuthServer listening on port ${PORT}`);
+        console.log('OAuthServer listening on port 3000');
         resolve();
       })
       .once('error', reject);
@@ -34,8 +26,8 @@ export async function setupOAuthServer() {
 
 const requestListener: RequestListener = async (req, res) => {
   const { pathname: path, query } = URL.parse(req.url as string, true);
+  
   // only accept reuests to this
-
   if (path !== '/redirect/oauth') {
     return res.writeHead(301, { Location: 'https://dubis.dev' }).end();
   }
