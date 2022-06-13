@@ -8,13 +8,10 @@ process.on('SIGTERM', () => process.exit(0));
 dotenv.config();
 console.clear();
 
-try {
-  const OAuthServer = await setupOAuthServer();
-  OAuthServer.on('error', (err) => {
-    OAuthServer.close();
-    console.error('OAuthServer error:', err);
-    console.error('OAuthServer is down');
-  });
-} catch (err) {
-  console.error('OAuthServer setup failed', err);
-}
+const OAuthServer = await setupOAuthServer();
+
+OAuthServer.on('error', (err) => {
+  OAuthServer.close();
+  console.error('OAuthServer error:', err);
+  console.error('OAuthServer is down');
+});
