@@ -36,8 +36,6 @@ const requestListener: RequestListener = async (req, res) => {
   const { pathname: path, query } = URL.parse(req.url as string, true);
   // only accept reuests to this
 
-  if (path === '/webhooks') return res.writeHead(200).end();
-
   if (path !== '/redirect/oauth') {
     return res.writeHead(301, { Location: 'https://dubis.dev' }).end();
   }

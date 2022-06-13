@@ -12,7 +12,7 @@ const userClient = new TwitterApi({
 
 export const tweet = async (status: string) => {
   try {
-    return await userClient.v1.tweet(status);
+    return await userClient.v2.tweet(status);
   } catch (e) {
     console.log('Couldn Tweet :(');
     console.log(e);
