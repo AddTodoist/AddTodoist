@@ -23,7 +23,6 @@ async function createAutohook() {
 
     if(process.env.AUTOHOOK_URL){ // only in production
       webhook.startServer();
-      await new Promise((resolve) => setTimeout(resolve, 80000));
     }
     
     await webhook.start(process.env.AUTOHOOK_URL); // undefined == use ngrok
