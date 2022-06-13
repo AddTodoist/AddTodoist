@@ -33,7 +33,6 @@
   "dependencies": {
     "axios": "0.27.2",
     "dotenv": "16.0.1",
-    "http-terminator": "3.2.0",
     "jsonwebtoken": "8.5.1",
     "mongoose": "6.3.6",
     "todoist-rest-client": "3.0.10",
