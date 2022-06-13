@@ -22,6 +22,7 @@ async function createAutohook() {
     await webhook.removeWebhooks();
 
     if(process.env.AUTOHOOK_URL){ // only in production
+      await new Promise((resolve) => setTimeout(resolve, 80000));
       webhook.startServer();
     }
     
