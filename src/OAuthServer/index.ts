@@ -12,14 +12,12 @@ export async function setupOAuthServer() {
   const server = createServer(requestListener);
 
   await new Promise<void>((resolve, reject) => {
-    server
-      .listen(3000)
-      .once('listening', () => {
-        console.log('OAuthServer listening on port 3000');
-        resolve();
-      })
+    server.listen(3000)
+      .once('listening', resolve)
       .once('error', reject);
   });
+
+  console.log('OAuthServer listening on port 3000');
 
   return server;
 }
@@ -43,7 +41,7 @@ const requestListener: RequestListener = async (req, res) => {
   const token = await getUserToken(code as string);
 
   if (!token) {
-    return await sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 9`);
+    return sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 9`);
   }
 
   let userInfo = encodeUser({
@@ -64,7 +62,7 @@ const requestListener: RequestListener = async (req, res) => {
       await user.save();
     } else {
       console.log(new Date(), err);
-      return await sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 10`);
+      return sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 10`);
     }
   }
 
@@ -76,7 +74,7 @@ const requestListener: RequestListener = async (req, res) => {
     const todoistClient = Client(token);
     projects = await todoistClient.project.getAll();
   } catch {
-    return await sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 11`);
+    return sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 11`);
   }
 
   userInfo = encodeUser({
@@ -89,14 +87,14 @@ const requestListener: RequestListener = async (req, res) => {
   try {
     await user.save();
   } catch {
-    return await sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 12`);
+    return sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 12`);
   }
 
   const projectsString = projects
     .map((project, index) => `${index} - ${project.name}`)
     .join('\n');
 
-  await sendDirectMessage(
+  sendDirectMessage(
     twId,
     TEXTS.PROJECT_CONFIG_HEADER + projectsString + TEXTS.PROJECT_CONFIG_FOOTER,
   );

@@ -49,8 +49,7 @@ const handleThread = async ({ tweet, user }: { tweet, user: IUserInfo }) => {
     project_id: projectId,
   });
 
-  // send response
-  return responseTweet(tweet, 'Just added this thread to your Todoist Account :)');
+  responseTweet(tweet, 'Just added this thread to your Todoist Account :)');
 };
 
 const handleTweet = async ({ tweet, user }: { tweet, user: IUserInfo }) => {
@@ -70,8 +69,7 @@ const handleTweet = async ({ tweet, user }: { tweet, user: IUserInfo }) => {
     project_id: projectId,
   });
 
-  // send response
-  return responseTweet(tweet, 'Just added this tweet to your Todoist Account :)');
+  responseTweet(tweet, 'Just added this tweet to your Todoist Account :)');
 };
 
 const getTweet = (event) => event.tweet_create_events[0];
