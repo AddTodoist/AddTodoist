@@ -23,6 +23,7 @@ async function createAutohook() {
 
     if(process.env.AUTOHOOK_URL){ // only in production
       await webhook.startServer();
+      console.log('Autohook server started on port', webhook.port);
     }
     
     await webhook.start(process.env.AUTOHOOK_URL); // undefined == use ngrok
