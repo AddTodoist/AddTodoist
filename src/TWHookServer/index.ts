@@ -1,4 +1,4 @@
-import { Autohook } from 'twitter-autohook';
+import { Autohook } from '@addtodoist/twitter-autohook';
 import {
   handleDirectMessage,
   directMessageRecieved,
@@ -22,7 +22,7 @@ async function createAutohook() {
     await webhook.removeWebhooks();
 
     if(process.env.AUTOHOOK_URL){ // only in production
-      webhook.startServer();
+      await webhook.startServer();
     }
     
     await webhook.start(process.env.AUTOHOOK_URL); // undefined == use ngrok
