@@ -27,17 +27,18 @@ export const directMessageRecieved = (event) => (
   event.direct_message_events
   && event.for_user_id === process.env.TW_ACC_ID
   && event.direct_message_events[0].type === 'message_create'
+  && getMessage(event).sender_id !== process.env.TW_ACC_ID // not me sending the message
 );
 
 export const handleDirectMessage = async (message: TWDirectMessage) => {
   const userId = message.sender_id;
-  const { text, entities } = message.message_data;
+  const { text } = message.message_data;
   const command = text.split(' ')[0].toLowerCase();
-  if (!VALID_COMMANDS.includes(command)) return;
+  if (!VALID_COMMANDS.includes(command)) return handleDefaultDM(message);
 
   switch (command) {
     case '/init':
-      return await sendDirectMessage(userId, generateInitText(userId));
+      return sendDirectMessage(userId, generateInitText(userId));
     case '/project':
       return handleProject(message);
   }
@@ -45,15 +46,15 @@ export const handleDirectMessage = async (message: TWDirectMessage) => {
 
 const handleProject = async (message: TWDirectMessage) => {
   const userId = message.sender_id;
-  const { text, entities } = message.message_data;
+  const { text } = message.message_data;
   const [isValidProjectNum, projectNum] = getProjectNumFromMessage(text);
 
   if (!isValidProjectNum) {
-    return await sendDirectMessage(userId, TEXTS.INVALID_PROJECT_NUM);
+    return sendDirectMessage(userId, TEXTS.INVALID_PROJECT_NUM);
   }
 
   const user = await UserInfo.findOne({ twId: hashId(userId) });
-  if (!user) return await sendDirectMessage(userId, TEXTS.NO_TOKEN);
+  if (!user) return sendDirectMessage(userId, TEXTS.NO_TOKEN);
 
   const { apiToken, projectId } = decodeUser(user.userInfo);
 
@@ -62,7 +63,7 @@ const handleProject = async (message: TWDirectMessage) => {
     const todoistClient = Client(apiToken);
     projects = await todoistClient.project.getAll();
   } catch (e) {
-    return await sendDirectMessage(userId, TEXTS.NO_TOKEN);
+    return sendDirectMessage(userId, TEXTS.NO_TOKEN);
   }
 
   const currentProject = projects.find(
@@ -70,7 +71,7 @@ const handleProject = async (message: TWDirectMessage) => {
   )?.name;
 
   if (projectNum >= projects.length) {
-    return await sendDirectMessage(
+    return sendDirectMessage(
       userId,
       `${TEXTS.INVALID_PROJECT_NUM}Current project is:\n${currentProject}`,
     );
@@ -85,10 +86,41 @@ const handleProject = async (message: TWDirectMessage) => {
 
   await user.save();
 
-  return await sendDirectMessage(
-    userId,
-    `${TEXTS.TWEETS_SAVED_TO}${project.name}`,
-  );
+  sendDirectMessage( userId, `${TEXTS.TWEETS_SAVED_TO}${project.name}`);
+};
+
+/**
+ * Check if recieved a tweet message
+ * If true, adds to account
+ * If false, does nothing
+ */
+const handleDefaultDM = async (message: TWDirectMessage) => {
+  const urls = message.message_data.entities.urls as URLEntity[];
+  const tweetURLEntity = urls.find(url => url.display_url.startsWith('twitter.com/')); // is or not a tweet DM
+  if (!tweetURLEntity) return;
+
+  const userId = message.sender_id;
+
+  const user = await UserInfo.findOne({ twId: hashId(userId) });
+  if (!user) return sendDirectMessage(userId, TEXTS.NO_TOKEN);
+
+  const { apiToken, projectId } = decodeUser(user.userInfo);
+
+
+  const todoistClient = Client(apiToken);
+  await todoistClient.task.create({
+    content: tweetURLEntity.expanded_url,
+    project_id: projectId,
+  });
+
+  sendDirectMessage(userId, 'Added to your account :)');
 };
 
 export const getMessage = (event): TWDirectMessage => event.direct_message_events[0].message_create;
+
+type URLEntity = {
+  url: string,
+  expanded_url: string,
+  display_url: string,
+  indices: [number, number]
+}
