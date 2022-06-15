@@ -14,31 +14,26 @@ export async function setupAutohookServer() {
 }
 
 async function createAutohook() {
-  try {
-    const webhook = new Autohook({
-      port: 5000,
-    });
+  const webhook = new Autohook({
+    port: 5000,
+  });
 
-    await webhook.removeWebhooks();
+  await webhook.removeWebhooks();
 
-    if(process.env.AUTOHOOK_URL){ // only in production
-      await webhook.startServer();
-      console.log('Autohook server started on port', webhook.port);
-    }
-    
-    await webhook.start(process.env.AUTOHOOK_URL); // undefined == use ngrok
-
-    // Subscribes to your own user's activity
-    await webhook.subscribe({
-      oauth_token: process.env.TWITTER_ACCESS_TOKEN || '',
-      oauth_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET || '',
-    });
-
-    return webhook;
-  } catch (e) {
-    console.error(e);
-    process.exit(1);
+  if(process.env.AUTOHOOK_URL){ // only in production
+    await webhook.startServer();
+    console.log('Autohook server started on port', webhook.port);
   }
+    
+  await webhook.start(process.env.AUTOHOOK_URL); // undefined == use ngrok
+
+  // Subscribes to your own user's activity
+  await webhook.subscribe({
+    oauth_token: process.env.TWITTER_ACCESS_TOKEN || '',
+    oauth_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET || '',
+  });
+
+  return webhook;
 }
 
 function configureListeners(webhook) {
