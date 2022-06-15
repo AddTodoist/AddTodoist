@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 import { setupOAuthServer } from './OAuthServer/index.js';
 
-process.on('uncaughtException', async () => process.exit(1));
+process.on('uncaughtException', () => process.exit(1));
 process.on('SIGTERM', () => process.exit(0));
 
 dotenv.config();
