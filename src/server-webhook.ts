@@ -10,8 +10,8 @@ console.clear();
 
 const TWAutohookServer = await setupAutohookServer();
 
-TWAutohookServer.on('error', (err) => {
+TWAutohookServer.on('error', async (err) => {
   console.error('TWAutohookServer error:', err);
-  TWAutohookServer.removeWebhooks();
+  await TWAutohookServer.removeWebhooks();
   console.error('TWAutohookServer is down');
 });
