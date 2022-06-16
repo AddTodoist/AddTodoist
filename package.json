@@ -2,15 +2,14 @@
   "name": "savetotodoist",
   "type": "module",
   "version": "0.0.0-development",
-  "private": true,
   "scripts": {
-    "watch-oauth": "nodemon src/server-oauth.ts",
-    "watch-webhook": "nodemon src/server-webhook.ts",
-    "lint": "eslint src/**",
-    "dev": "concurrently 'npm:watch-*'",
-    "start": "node dist/index.js",
     "build": "node esbuild.js",
-    "deploy": "node deploy.js"
+    "deploy": "node deploy.js",
+    "dev": "concurrently 'npm:watch-*'",
+    "lint": "eslint src/**",
+    "start": "node dist/index.js",
+    "watch-oauth": "nodemon src/server-oauth.ts",
+    "watch-webhook": "nodemon src/server-webhook.ts"
   },
   "author": "David Jiménez",
   "license": "UNLICENSED",
