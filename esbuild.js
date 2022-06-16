@@ -3,16 +3,21 @@ import fs from 'fs';
 const json = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 let deps = Object.keys(json.dependencies);
 
+const entryPoint =
+  process.env.IS_AUTOHOOK_SERVER
+    ? 'src/server-webhook.ts'
+    : 'src/server-oauth.ts';
+
 esbuild
   .build({
     platform: 'node',
     logLevel: 'info',
-    entryPoints: ['src/server-oauth.ts', 'src/server-webhook.ts' ],
+    entryPoints: [entryPoint],
     bundle: true,
     minify: true,
     format: 'esm',
     target: 'node16',
-    outdir: 'dist',
+    outfile: 'dist/index.js',
     external: deps,
   })
   .catch(() => process.exit(1));

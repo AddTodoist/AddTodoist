@@ -9,8 +9,6 @@
     "lint": "eslint src/**",
     "dev": "concurrently 'npm:watch-*'",
     "start": "node dist/index.js",
-    "start:oauth": "node dist/server-oauth.js",
-    "start:webhook": "node dist/server-webhook.js",
     "build": "node esbuild.js"
   },
   "author": "David Jiménez",
