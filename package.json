@@ -9,11 +9,14 @@
     "lint": "eslint src/**",
     "dev": "concurrently 'npm:watch-*'",
     "start": "node dist/index.js",
-    "build": "node esbuild.js"
+    "build": "node esbuild.js",
+    "deploy": "node deploy.js"
   },
   "author": "David Jiménez",
   "license": "UNLICENSED",
   "devDependencies": {
+    "@semantic-release/changelog": "6.0.1",
+    "@semantic-release/exec": "6.0.3",
     "@types/jsonwebtoken": "8.5.8",
     "@types/node": "17.0.42",
     "@types/twitter-autohook": "1.7.0",
@@ -25,13 +28,13 @@
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.26.0",
     "nodemon": "2.0.16",
+    "semantic-release": "19.0.3",
     "ts-node": "10.8.1",
     "typescript": "4.7.3",
-    "semantic-release": "19.0.3"
+    "axios": "0.27.2"
   },
   "dependencies": {
     "@addtodoist/twitter-autohook": "2.1.0",
-    "axios": "0.27.2",
     "dotenv": "16.0.1",
     "jsonwebtoken": "8.5.1",
     "mongoose": "6.3.6",
