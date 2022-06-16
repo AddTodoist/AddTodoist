@@ -9,14 +9,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 16
+      - name: Install dependencies
+        run: yarn
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEPLOY_ENDPOINT_OAUTH: ${{ secrets.DEPLOY_ENDPOINT_OAUTH }}
+          DEPLOY_ENDPOINT_WEBHOOKS: ${{ secrets.DEPLOY_ENDPOINT_WEBHOOKS }}
         run: npx semantic-release
