@@ -113,7 +113,7 @@ const handleDefaultDM = async (message: TWDirectMessage) => {
     project_id: projectId,
   });
 
-  sendDirectMessage(userId, 'Added to your account :)');
+  sendDirectMessage(userId, TEXTS.ADDED_TO_ACCOUNT);
 };
 
 export const getMessage = (event): TWDirectMessage => event.direct_message_events[0].message_create;

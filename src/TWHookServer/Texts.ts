@@ -3,6 +3,7 @@ enum TWHookServerTexts {
   INIT_TEXT = 'Init',
   NO_TOKEN = '🔴 No token configured\nPlease run\n/init\ncommand',
   TWEETS_SAVED_TO = '🔴 Now the tweets will be saved to:\n',
+  ADDED_TO_ACCOUNT = '🔴 Added to your account',
 }
 
 export const generateInitText = (userId: string) => `
