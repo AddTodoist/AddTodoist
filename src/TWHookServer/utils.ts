@@ -1,4 +1,5 @@
 import Client from 'todoist-rest-client';
+import { TWDirectMessage, URLEntity } from './DirectMessages';
 
 export const getProjectNumFromMessage = ( message: string ): [boolean, number] => {
   const projectNum = message.split(' ')[1];
@@ -7,6 +8,13 @@ export const getProjectNumFromMessage = ( message: string ): [boolean, number] =
 
   if (!isValidProjectNum) return [false, NaN];
   return [true, +isValidProjectNum[0]];
+};
+
+export const getMessageWithoutURL = ( message: TWDirectMessage, URLEntity: URLEntity): string => {
+  const textWithoutURL = message.message_data.text.slice(0, URLEntity.indices[0]).trim();
+  const taskText = `[${textWithoutURL}](${URLEntity.expanded_url})`;
+  return taskText;
+
 };
 
 export const quickAddTodoistTask = (text: string, token: string) => {

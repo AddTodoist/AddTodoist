@@ -1,25 +1,16 @@
 import { APIProjectObject } from 'todoist-rest-client/dist/definitions';
-import { sendDirectMessage } from '../TWAPI.js';
+import { sendDirectMessage } from 'TWAPI';
 import TEXTS, { generateInitText } from './Texts.js';
-import { addTodoistTask, getProjectNumFromMessage, getTodoistProjects } from './utils.js';
-import UserInfo from '../DB/index.js';
-import { decodeUser, encodeUser, hashId } from '../DB/encrypts.js';
-
-type TWDirectMessage = {
-  target: Record<string, unknown>; // object
-  sender_id: string;
-  message_data: {
-    text: string;
-    entities: Record<string, unknown>; // object
-  };
-};
+import { addTodoistTask, getMessageWithoutURL, getProjectNumFromMessage, getTodoistProjects } from './utils.js';
+import UserInfo from 'DB';
+import { decodeUser, encodeUser, hashId } from 'DB/encrypts.js';
 
 const VALID_COMMANDS = [
   // "/help",
   '/init',
   '/project',
   // "/getconfig",
-  // "/deleteall",
+  // "/deleteall", --> from dB & revoke access token
 ];
 
 export const directMessageRecieved = (event) => (
@@ -104,10 +95,15 @@ const handleDefaultDM = async (message: TWDirectMessage) => {
 
   const { apiToken, projectId } = decodeUser(user.userInfo);
 
+  // get task content (just a tweet or custom text)
+  const taskContent = tweetURLEntity.indices[0] === 0
+    ? tweetURLEntity.expanded_url
+    : getMessageWithoutURL(message, tweetURLEntity);
+
   try {
     await addTodoistTask({
       token: apiToken,
-      content: tweetURLEntity.expanded_url,
+      content: taskContent,
       projectId
     });
   } catch (err) {
@@ -119,9 +115,18 @@ const handleDefaultDM = async (message: TWDirectMessage) => {
 
 export const getMessage = (event): TWDirectMessage => event.direct_message_events[0].message_create;
 
-type URLEntity = {
+export type URLEntity = {
   url: string,
   expanded_url: string,
   display_url: string,
   indices: [number, number]
 }
+
+export type TWDirectMessage = {
+  target: Record<string, unknown>; // object
+  sender_id: string;
+  message_data: {
+    text: string;
+    entities: Record<string, unknown>; // object
+  };
+};
