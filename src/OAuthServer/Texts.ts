@@ -1,9 +1,9 @@
 enum OAuthServerTexts {
-  GENERAL_WRONG = '🔴 Something went wrong 🔴',
-  ACCOUNT_LINKED = '🎉 Your account has been linked! 🎉',
+  GENERAL_WRONG = '🔴 Something went wrong',
+  ACCOUNT_LINKED = '🎉 Your account has been linked!',
 
   PROJECT_CONFIG_HEADER = `
-🔴 Welcome again! 🔴\n\
+🔴 Welcome again! \n\
 Now that I can access your account, let's select:\n\
 In which project sould I save the tweets?:\n`,
 
