@@ -42,8 +42,8 @@ function configureListeners(webhook) {
       const message = getMessage(event);
       return handleDirectMessage(message);
     }
-    if (mentionedIn(event)) {
-      return handleMention(event);
-    }
+    // if (mentionedIn(event)) {
+    //   return handleMention(event);
+    // }
   });
 }
