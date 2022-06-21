@@ -1,8 +1,7 @@
-import Client from 'todoist-rest-client';
 import { APIProjectObject } from 'todoist-rest-client/dist/definitions';
 import { sendDirectMessage } from '../TWAPI.js';
 import TEXTS, { generateInitText } from './Texts.js';
-import { getProjectNumFromMessage } from './utils.js';
+import { addTodoistTask, getProjectNumFromMessage, getTodoistProjects } from './utils.js';
 import UserInfo from '../DB/index.js';
 import { decodeUser, encodeUser, hashId } from '../DB/encrypts.js';
 
@@ -54,16 +53,15 @@ const handleProject = async (message: TWDirectMessage) => {
   }
 
   const user = await UserInfo.findOne({ twId: hashId(userId) });
-  if (!user) return sendDirectMessage(userId, TEXTS.NO_TOKEN);
+  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
 
   const { apiToken, projectId } = decodeUser(user.userInfo);
 
   let projects: APIProjectObject[];
   try {
-    const todoistClient = Client(apiToken);
-    projects = await todoistClient.project.getAll();
+    projects = await getTodoistProjects(apiToken);
   } catch (e) {
-    return sendDirectMessage(userId, TEXTS.NO_TOKEN);
+    return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
   }
 
   const currentProject = projects.find(
@@ -102,16 +100,19 @@ const handleDefaultDM = async (message: TWDirectMessage) => {
   const userId = message.sender_id;
 
   const user = await UserInfo.findOne({ twId: hashId(userId) });
-  if (!user) return sendDirectMessage(userId, TEXTS.NO_TOKEN);
+  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
 
   const { apiToken, projectId } = decodeUser(user.userInfo);
 
-
-  const todoistClient = Client(apiToken);
-  await todoistClient.task.create({
-    content: tweetURLEntity.expanded_url,
-    project_id: projectId,
-  });
+  try {
+    await addTodoistTask({
+      token: apiToken,
+      content: tweetURLEntity.expanded_url,
+      projectId
+    });
+  } catch (err) {
+    return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
+  }
 
   sendDirectMessage(userId, TEXTS.ADDED_TO_ACCOUNT);
 };

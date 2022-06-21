@@ -1,7 +1,7 @@
 enum TWHookServerTexts {
   INVALID_PROJECT_NUM = '🔴 Invalid project number\n',
   INIT_TEXT = 'Init',
-  NO_TOKEN = '🔴 No token configured\nPlease run\n/init\ncommand',
+  BAD_TOKEN = '🔴 Something is wrong with your account configuration.\nPlease run\n/init\ncommand',
   TWEETS_SAVED_TO = '🔴 Now the tweets will be saved to:\n',
   ADDED_TO_ACCOUNT = '🔴 Added to your account',
 }
