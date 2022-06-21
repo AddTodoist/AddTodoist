@@ -1,12 +1,12 @@
 enum TWHookServerTexts {
-  INVALID_PROJECT_NUM = '🔴 Invalid project number 🔴\n',
+  INVALID_PROJECT_NUM = '🔴 Invalid project number\n',
   INIT_TEXT = 'Init',
-  NO_TOKEN = '🔴 No token configured 🔴\nPlease run\n/init\ncommand',
-  TWEETS_SAVED_TO = '🔴 Now the tweets will be saved to: 🔴\n',
+  NO_TOKEN = '🔴 No token configured\nPlease run\n/init\ncommand',
+  TWEETS_SAVED_TO = '🔴 Now the tweets will be saved to:\n',
 }
 
 export const generateInitText = (userId: string) => `
-🔴 Hi there! 🔴\n\
+🔴 Hi there!\n\
 I'm AddToDoist bot and I'm here to help you save tweets and threads to your Todoist account.\n\
 \nFirst of all, you must cofigure me for making me able to access your account.\n\n\
 Follow this steps:\n\
