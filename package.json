@@ -8,12 +8,14 @@
     "dev": "concurrently 'npm:watch-*'",
     "lint": "eslint src/**",
     "start": "node dist/index.js",
-    "watch-oauth": "nodemon src/server-oauth.ts",
-    "watch-webhook": "nodemon src/server-webhook.ts"
+    "watch-compile": "node esbuild-dev.js",
+    "watch-oauth": "nodemon dist/server-oauth.js",
+    "watch-webhook": "nodemon dist/server-webhook.js"
   },
-  "author": "David Jiménez",
+  "author": "David Jiménez <dubisdev@gmail.com> (https://dubis.dev)",
   "license": "UNLICENSED",
   "devDependencies": {
+    "@jgoz/esbuild-plugin-typecheck": "1.1.0",
     "@semantic-release/changelog": "6.0.1",
     "@semantic-release/exec": "6.0.3",
     "@types/jsonwebtoken": "8.5.8",

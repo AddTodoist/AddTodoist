@@ -83,6 +83,11 @@
   resolved "https://registry.yarnpkg.com/@isaacs/string-locale-compare/-/string-locale-compare-1.1.0.tgz#291c227e93fd407a96ecd59879a35809120e432b"
   integrity sha512-SQ7Kzhh9+D+ZW9MA0zkYv3VXhIDNx+LzM6EJ+/65I3QY+enU6Itte7E5XX7EWrqLW2FN4n06GWzBnPoC3th2aQ==
 
+"@jgoz/esbuild-plugin-typecheck@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@jgoz/esbuild-plugin-typecheck/-/esbuild-plugin-typecheck-1.1.0.tgz#5afb7cc14f28932b3c40ec16590a01d47942ed50"
+  integrity sha512-eBhysNQGBr91Ob/ME3EjrXQHAd4C1z7VcXSjwKNZ2AR4IzoblnIY+DJfNQAoLIj+bmTm7+K5cj4a9pq+V8l5DQ==
+
 "@jridgewell/resolve-uri@^3.0.3":
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/@jridgewell/resolve-uri/-/resolve-uri-3.0.7.tgz#30cd49820a962aff48c8fffc5cd760151fca61fe"

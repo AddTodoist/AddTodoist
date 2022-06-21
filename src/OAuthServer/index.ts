@@ -1,12 +1,12 @@
 import { createServer, RequestListener } from 'http';
-import URL from 'url';
+import { parse, URL } from 'url';
 import Client from 'todoist-rest-client';
 import axios from 'axios';
 import { APIProjectObject } from 'todoist-rest-client/dist/definitions';
-import { sendDirectMessage } from '../TWAPI.js';
+import { sendDirectMessage } from 'TWAPI';
 import TEXTS from './Texts.js';
-import UserInfo from '../DB/index.js';
-import { encodeUser, hashId } from '../DB/encrypts.js';
+import UserInfo from 'db/index';
+import { encodeUser, hashId } from 'db/encrypts.js';
 
 export async function setupOAuthServer() {
   const server = createServer(requestListener);
@@ -23,9 +23,9 @@ export async function setupOAuthServer() {
 }
 
 const requestListener: RequestListener = async (req, res) => {
-  const { pathname: path, query } = URL.parse(req.url as string, true);
+  const { pathname: path, query } = parse(req.url as string, true);
   
-  // only accept reuests to this
+  // only accept reqests to oauth endpoint
   if (path !== '/redirect/oauth') {
     return res.writeHead(301, { Location: 'https://dubis.dev' }).end();
   }
@@ -104,7 +104,7 @@ export const getUserToken = async (authCode: string) => {
   const clientId = process.env.TODOIST_CLIENT_ID as string;
   const clientSecret = process.env.TODOIST_CLIENT_SECRET as string;
 
-  const url = new URL.URL('https://todoist.com/oauth/access_token');
+  const url = new URL('https://todoist.com/oauth/access_token');
   url.searchParams.append('client_id', clientId);
   url.searchParams.append('client_secret', clientSecret);
   url.searchParams.append('code', authCode);

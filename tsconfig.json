@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
+    "rootDir": "src",
+    "baseUrl": "src",
+    "module": "esnext",
     "esModuleInterop": true,
-    "target": "ESNext",
-    "moduleResolution": "Node",
+    "target": "esnext",
+    "moduleResolution": "node",
     "outDir": "dist",
-    "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": false,
     "strict": true,
