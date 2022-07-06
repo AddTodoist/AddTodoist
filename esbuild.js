@@ -10,6 +10,7 @@ const entryPoint =
 
 esbuild
   .build({
+    nodePaths: ['src'],
     platform: 'node',
     logLevel: 'info',
     entryPoints: [entryPoint],
