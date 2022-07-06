@@ -1,7 +1,7 @@
 import Client from 'todoist-rest-client';
 import { getOriginalTweet, getResponseTweet, responseTweet } from '../TWAPI.js';
-import UserInfo, { IUserInfo } from '../DB/index.js';
-import { decodeUser, hashId } from '../DB/encrypts.js';
+import UserInfo, { IUserInfo } from 'DB';
+import { decodeUser, hashId } from 'DB/encrypts.js';
 
 export const mentionedIn = (event): boolean => {
   const itIsMe = (event) => event.tweet_create_events[0].user.id_str === process.env.TW_ACC_ID;

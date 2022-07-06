@@ -8,7 +8,6 @@ let deps = Object.keys(json.dependencies);
 esbuild
   .build({
     watch: true,
-    nodePaths: ['src'],
     platform: 'node',
     logLevel: 'info',
     entryPoints: [

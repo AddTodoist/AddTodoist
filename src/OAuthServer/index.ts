@@ -5,8 +5,8 @@ import axios from 'axios';
 import { APIProjectObject } from 'todoist-rest-client/dist/definitions';
 import { sendDirectMessage } from 'TWAPI';
 import TEXTS from './Texts.js';
-import UserInfo from 'db/index';
-import { encodeUser, hashId } from 'db/encrypts.js';
+import UserInfo from 'DB';
+import { encodeUser, hashId } from 'DB/encrypts.js';
 
 export async function setupOAuthServer() {
   const server = createServer(requestListener);
