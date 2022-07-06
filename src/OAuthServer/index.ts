@@ -7,6 +7,7 @@ import { sendDirectMessage } from 'TWAPI';
 import TEXTS from './Texts.js';
 import UserInfo from 'DB';
 import { encodeUser, hashId } from 'DB/encrypts.js';
+import Bugsnag from 'bugsnag';
 
 export async function setupOAuthServer() {
   const server = createServer(requestListener);
@@ -61,6 +62,7 @@ const requestListener: RequestListener = async (req, res) => {
       user.isNew = false;
       await user.save();
     } else {
+      Bugsnag.notify(err);
       console.log(new Date(), err);
       return sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 10`);
     }
@@ -73,7 +75,8 @@ const requestListener: RequestListener = async (req, res) => {
   try {
     const todoistClient = Client(token);
     projects = await todoistClient.project.getAll();
-  } catch {
+  } catch (err) {
+    Bugsnag.notify(err);
     return sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 11`);
   }
 
@@ -86,7 +89,8 @@ const requestListener: RequestListener = async (req, res) => {
 
   try {
     await user.save();
-  } catch {
+  } catch (err) {
+    Bugsnag.notify(err);
     return sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 12`);
   }
 
@@ -112,7 +116,8 @@ export const getUserToken = async (authCode: string) => {
   try {
     const { data } = await axios.post(url.href);
     return data.access_token || null;
-  } catch {
+  } catch (err) {
+    Bugsnag.notify(err);
     console.log('Something went wrong in getUserToken');
     return null;
   }

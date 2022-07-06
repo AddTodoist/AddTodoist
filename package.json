@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@addtodoist/twitter-autohook": "2.1.0",
+    "@bugsnag/js": "7.17.0",
     "axios": "0.27.2",
     "dotenv": "16.0.1",
     "jsonwebtoken": "8.5.1",

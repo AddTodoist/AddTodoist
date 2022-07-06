@@ -1,5 +1,6 @@
 import { TwitterApi } from 'twitter-api-v2';
 import dotenv from 'dotenv';
+import Bugsnag from 'bugsnag';
 
 dotenv.config();
 
@@ -14,7 +15,8 @@ export const tweet = async (status: string) => {
   try {
     return await userClient.v2.tweet(status);
   } catch (e) {
-    console.log('Couldn Tweet :(');
+    Bugsnag.notify(e);
+    console.log('Couldnt Tweet');
     console.log(e);
   }
 };
@@ -40,6 +42,7 @@ export const responseTweet = async (tweet, response: string) => {
       }
     });
   } catch (e) {
+    Bugsnag.notify(e);
     console.log('Couldn Response :(');
     console.log(e);
   }
@@ -52,6 +55,7 @@ export const sendDirectMessage = async (userId: string, message: string) => {
       text: message,
     });
   } catch (e) {
+    Bugsnag.notify(e);
     console.log('Couldn Send Direct Message :(');
     console.log(e);
   }
@@ -71,6 +75,7 @@ export const getOriginalTweet = async (tweetId: string) => {
 
     return { url, text: originalTweet.data.text };
   } catch (e) {
+    Bugsnag.notify(e);
     console.log('Couldn Get Original Tweet :(. Err: ', e);
     console.log(e);
   }

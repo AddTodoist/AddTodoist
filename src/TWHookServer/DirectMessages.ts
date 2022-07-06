@@ -4,6 +4,7 @@ import TEXTS, { generateInitText } from './Texts.js';
 import { addTodoistTask, getMessageWithoutURL, getProjectNumFromMessage, getTodoistProjects, revokeAccessToken } from './utils.js';
 import UserInfo from 'DB';
 import { decodeUser, encodeUser, hashId } from 'DB/encrypts.js';
+import Bugsnag from 'bugsnag';
 
 const VALID_COMMANDS = [
   // "/help",
@@ -62,6 +63,7 @@ const handleDeleteAll = async (message: TWDirectMessage) => {
     ]);
 
   } catch (err) {
+    Bugsnag.notify(err);
     console.log(new Date(), err);
     return sendDirectMessage(userId, TEXTS.CANT_DELETE);
   }
@@ -142,6 +144,7 @@ const handleDefaultDM = async (message: TWDirectMessage) => {
       projectId
     });
   } catch (err) {
+    Bugsnag.notify(err);
     return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
   }
 
