@@ -4,6 +4,9 @@ enum TWHookServerTexts {
   BAD_TOKEN = '🔴 Something is wrong with your account configuration.\nPlease run\n/init\ncommand',
   TWEETS_SAVED_TO = '🔴 Now the tweets will be saved to:\n',
   ADDED_TO_ACCOUNT = '🔴 Added to your account',
+  CANT_DELETE = '🔴 Can\'t delete your account. Try again. If the problem persists, contact @dubisdev_',
+  DELETED_ACCOUNT = '🔴 All your account data has been deleted',
+  ALERT_DELETE = '🔴 Are you sure you want to delete your account? This action CAN NOT be undone. \nType\n/deleteall\nto continue',
 }
 
 export const generateInitText = (userId: string) => `

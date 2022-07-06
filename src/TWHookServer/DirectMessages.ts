@@ -1,7 +1,7 @@
 import { APIProjectObject } from 'todoist-rest-client/dist/definitions';
 import { sendDirectMessage } from 'TWAPI';
 import TEXTS, { generateInitText } from './Texts.js';
-import { addTodoistTask, getMessageWithoutURL, getProjectNumFromMessage, getTodoistProjects } from './utils.js';
+import { addTodoistTask, getMessageWithoutURL, getProjectNumFromMessage, getTodoistProjects, revokeAccessToken } from './utils.js';
 import UserInfo from 'DB';
 import { decodeUser, encodeUser, hashId } from 'DB/encrypts.js';
 
@@ -10,14 +10,15 @@ const VALID_COMMANDS = [
   '/init',
   '/project',
   // "/getconfig",
-  // "/deleteall", --> from dB & revoke access token
+  '/delete',
+  '/deleteall',
 ];
 
 export const directMessageRecieved = (event) => (
   event.direct_message_events
   && event.for_user_id === process.env.TW_ACC_ID
   && event.direct_message_events[0].type === 'message_create'
-  && getMessage(event).sender_id !== process.env.TW_ACC_ID // not me sending the message
+  && getMessage(event).sender_id !== process.env.TW_ACC_ID
 );
 
 export const handleDirectMessage = async (message: TWDirectMessage) => {
@@ -31,7 +32,41 @@ export const handleDirectMessage = async (message: TWDirectMessage) => {
       return sendDirectMessage(userId, generateInitText(userId));
     case '/project':
       return handleProject(message);
+    case '/delete':
+      return handleDelete(message);
+    case '/deleteall':
+      return handleDeleteAll(message);
   }
+};
+
+const handleDelete = async (message: TWDirectMessage) => {
+  const userId = message.sender_id;
+
+  const user = await UserInfo.findOne({ twId: hashId(userId) });
+  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
+
+  sendDirectMessage(userId, TEXTS.ALERT_DELETE);
+};
+
+const handleDeleteAll = async (message: TWDirectMessage) => {
+  const userId = message.sender_id;
+
+  const user = await UserInfo.findOne({ twId: hashId(userId) });
+  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
+  const { apiToken } = decodeUser(user.userInfo);
+
+  try {
+    await Promise.all([
+      revokeAccessToken(apiToken),
+      user.delete()
+    ]);
+
+  } catch (err) {
+    console.log(new Date(), err);
+    return sendDirectMessage(userId, TEXTS.CANT_DELETE);
+  }
+
+  sendDirectMessage(userId, TEXTS.DELETED_ACCOUNT);
 };
 
 const handleProject = async (message: TWDirectMessage) => {
