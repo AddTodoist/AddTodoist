@@ -143,8 +143,7 @@ const handleDefaultDM = async (message: TWDirectMessage) => {
       content: taskContent,
       projectId
     });
-  } catch (err) {
-    Bugsnag.notify(err);
+  } catch {
     return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
   }
 

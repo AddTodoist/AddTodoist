@@ -19,7 +19,7 @@ console.clear();
 
 const TWAutohookServer = await setupAutohookServer();
 
-TWAutohookServer.on('error', async (err) => {
+TWAutohookServer.server?.on('error', async (err) => {
   Bugsnag.notify(err);
   console.error('TWAutohookServer error:', err);
   await TWAutohookServer.removeWebhooks();
