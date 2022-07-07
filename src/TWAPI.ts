@@ -1,8 +1,5 @@
 import { TwitterApi } from 'twitter-api-v2';
-import dotenv from 'dotenv';
 import Bugsnag from 'bugsnag';
-
-dotenv.config();
 
 const userClient = new TwitterApi({
   appKey: process.env.TWITTER_CONSUMER_KEY || '',

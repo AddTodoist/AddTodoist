@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import 'configure-dotenv';
 import mongoose from 'mongoose';
 import Bugsnag from './bugsnag';
 
@@ -14,7 +14,6 @@ process.on('SIGTERM', async () => {
   process.exit(0);
 });
 
-dotenv.config();
 console.clear();
 
 const OAuthServer = await setupOAuthServer();
