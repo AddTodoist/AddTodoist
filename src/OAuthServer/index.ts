@@ -31,19 +31,19 @@ const requestListener: RequestListener = async (req, res) => {
     return res.writeHead(301, { Location: 'https://dubis.dev' }).end();
   }
 
-  const { code, state } = query;
+  const { code, state, error } = query;
+
+  if (error === 'access_denied') return res.writeHead(301, { Location: 'https://twitter.com/messages' }).end();
+  if (error) Bugsnag.notify(new Error(error as string, { cause: new Error('Something went wrong getting the token') }));
   if (!code || !state) return res.end('Invalid request');
 
   const twId = state as string;
 
-  res.writeHead(301, { Location: 'https://twitter.com/messages' });
-  res.end();
+  res.writeHead(301, { Location: 'https://twitter.com/messages' }).end();
 
   const token = await getUserToken(code as string);
 
-  if (!token) {
-    return sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 9`);
-  }
+  if (!token) return sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 9`);
 
   let userInfo = encodeUser({
     apiToken: token,
