@@ -1,7 +1,7 @@
 import { APIProjectObject } from 'todoist-rest-client/dist/definitions';
 import { sendDirectMessage } from 'TWAPI';
-import TEXTS, { generateInitText } from './Texts.js';
-import { addTodoistTask, getMessageWithoutURL, getProjectNumFromMessage, getTodoistProjects, revokeAccessToken } from './utils.js';
+import TEXTS, { generateConfigText, generateInitText } from './Texts.js';
+import { addTodoistTask, getMessageWithoutURL, getProjectNumFromMessage, getTodoistProjects, getTodoistUserData, revokeAccessToken } from './utils.js';
 import UserInfo from 'DB';
 import { decodeUser, encodeUser, hashId } from 'DB/encrypts.js';
 import Bugsnag from 'bugsnag';
@@ -10,7 +10,7 @@ const VALID_COMMANDS = [
   // "/help",
   '/init',
   '/project',
-  // "/getconfig",
+  '/config',
   '/delete',
   '/deleteall',
 ];
@@ -37,6 +37,28 @@ export const handleDirectMessage = async (message: TWDirectMessage) => {
       return handleDelete(message);
     case '/deleteall':
       return handleDeleteAll(message);
+    case '/config':
+      return handleConfig(message);
+  }
+};
+
+const handleConfig = async (message: TWDirectMessage) => {
+  const userId = message.sender_id;
+
+  const user = await UserInfo.findOne({ twId: hashId(userId) });
+  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
+
+  const { apiToken, projectId } = decodeUser(user.userInfo);
+
+  try {
+    const projects = await getTodoistProjects(apiToken);
+    const projectName = projects.find((p) => p.id === projectId)?.name;
+
+    const {email, full_name: username} = await getTodoistUserData(apiToken);
+
+    sendDirectMessage(userId, generateConfigText({email, username, projectName, projectId}));
+  } catch (e) {
+    return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
   }
 };
 

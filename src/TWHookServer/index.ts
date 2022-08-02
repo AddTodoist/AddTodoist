@@ -36,7 +36,7 @@ async function createAutohook() {
   return webhook;
 }
 
-function configureListeners(webhook) {
+function configureListeners(webhook: Autohook) {
   webhook.on('event', async (event) => {
     if (directMessageRecieved(event)) {
       const message = getMessage(event);
