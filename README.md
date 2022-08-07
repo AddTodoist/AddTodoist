@@ -1,6 +1,6 @@
 > **⚠️ Not linked to @Doist or @Todoist**
 
-## 🐦 @AddToDoist
+## 🐦 @AddToDoist &nbsp; [![Release status](https://github.com/AddToDoist/AddToDoist/actions/workflows/release.yml/badge.svg)](https://github.com/AddToDoist/AddToDoist/actions/workflows/release.yml)
 
 🤖 ***A Twitter bot that will help you save tweets and threads to your Todoist account***
 
