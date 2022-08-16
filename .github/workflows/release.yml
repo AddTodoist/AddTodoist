@@ -24,3 +24,14 @@ jobs:
           DEPLOY_ENDPOINT_OAUTH: ${{ secrets.DEPLOY_ENDPOINT_OAUTH }}
           DEPLOY_ENDPOINT_WEBHOOKS: ${{ secrets.DEPLOY_ENDPOINT_WEBHOOKS }}
         run: npx semantic-release
+  tweet:
+    name: Tweet Release Info
+    runs-on: ubuntu-latest
+    steps:
+      - name: Tweet Release
+        uses: AddToDoist/tweet-on-release-action@v1
+        with:
+          consumer-key: ${{ secrets.CONSUMER_KEY }}
+          consumer-secret: ${{ secrets.CONSUMER_SECRET }}
+          access-token: ${{ secrets.ACCESS_TOKEN }}
+          access-token-secret: ${{ secrets.ACCESS_TOKEN_SECRET }}
