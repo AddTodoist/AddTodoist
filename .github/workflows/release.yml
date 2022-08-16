@@ -24,7 +24,9 @@ jobs:
           DEPLOY_ENDPOINT_OAUTH: ${{ secrets.DEPLOY_ENDPOINT_OAUTH }}
           DEPLOY_ENDPOINT_WEBHOOKS: ${{ secrets.DEPLOY_ENDPOINT_WEBHOOKS }}
         run: npx semantic-release
+
   tweet:
+    needs: release
     name: Tweet Release Info
     runs-on: ubuntu-latest
     steps:
