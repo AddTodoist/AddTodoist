@@ -1,6 +1,6 @@
 > **⚠️ Not linked to @Doist or @Todoist**
 
-## 🐦 @AddToDoist &nbsp; [![Release status](https://github.com/AddToDoist/AddToDoist/actions/workflows/release.yml/badge.svg)](https://github.com/AddToDoist/AddToDoist/actions/workflows/release.yml)
+## 🐦 @AddTodoist &nbsp; [![Release status](https://github.com/AddTodoist/AddTodoist/actions/workflows/release.yml/badge.svg)](https://github.com/AddTodoist/AddTodoist/actions/workflows/release.yml)
 
 🤖 ***A Twitter bot that will help you save tweets and threads to your Todoist account***
 
@@ -12,6 +12,6 @@
 
 ## Contributing
 
-The bot has associated hosting costs so any help to cover them is welcome. You can do it through a small donation at [BuyMeACoffee](https://www.buymeacoffee.com/dubisdev). Also any feedback, [issue](https://github.com/AddToDoist/AddToDoist/issues) or PR is welcome 💗
+The bot has associated hosting costs so any help to cover them is welcome. You can do it through a small donation at [BuyMeACoffee](https://www.buymeacoffee.com/dubisdev). Also any feedback, [issue](https://github.com/AddTodoist/AddTodoist/issues) or PR is welcome 💗
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/dubisdev)

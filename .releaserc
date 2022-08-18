@@ -9,7 +9,7 @@
       "@semantic-release/changelog",
       {
         "changelogFile": "CHANGELOG.md",
-        "changelogTitle": "🐦 @AddToDoist - Changelog"
+        "changelogTitle": "🐦 @AddTodoist - Changelog"
       }
     ],
     "@semantic-release/github",
