@@ -4,7 +4,6 @@ import {
   directMessageRecieved,
   getMessage,
 } from './DirectMessages.js';
-import { handleMention, mentionedIn } from './Mentions.js';
 
 export async function setupAutohookServer() {
   const autohook = await createAutohook();
@@ -20,11 +19,12 @@ async function createAutohook() {
 
   await webhook.removeWebhooks();
 
-  if(process.env.AUTOHOOK_URL){ // only in production
+  if (process.env.AUTOHOOK_URL) {
+    // only in production
     await webhook.startServer();
     console.log('Autohook server started on port', webhook.port);
   }
-    
+
   await webhook.start(process.env.AUTOHOOK_URL); // undefined == use ngrok
 
   // Subscribes to your own user's activity
@@ -42,8 +42,5 @@ function configureListeners(webhook: Autohook) {
       const message = getMessage(event);
       return handleDirectMessage(message);
     }
-    // if (mentionedIn(event)) {
-    //   return handleMention(event);
-    // }
   });
 }
