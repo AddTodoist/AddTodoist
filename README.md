@@ -22,6 +22,8 @@
 4. Set up your account (Just the first time)
 5. Start saving tweets by sending them to the bot by DM
 
+> If you are receiving an error message, please check the [errors documentation](errors.md)
+
 ### Set Up Your Account
 
 Before using the bot you must provide access to your Todoist account so the tweets can be saved to it. You can do this by sending `/init` by DM to the bot. Then it will answer you with instructions to complete this process.
@@ -43,7 +45,6 @@ The bot features can be accessed by sending one of these commands (⚠️ Don't 
 - The only collected information from users is their token, which is encrypted and stored in a secure database.
 - No more data is collected
 - Users can choose to delete their data by using `/delete` command
-
 
 ## Contributing
 
