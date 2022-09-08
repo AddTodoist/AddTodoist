@@ -18,17 +18,6 @@ export const getMessageWithoutURL = ( message: TWDirectMessage, URLEntity: URLEn
 
 };
 
-// export const quickAddTodoistTask = (text: string, token: string) => {
-//   return fetch('https://api.todoist.com/sync/v8/quick/add', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: `Bearer ${token}`,
-//     },
-//     body: JSON.stringify({ text }),
-//   });
-// };
-
 export const getTodoistUserData = async (token: string) => {
   const { data } = await axios.post('https://api.todoist.com/sync/v8/sync',
     { sync_token: '*', resource_types: ['user'] },
