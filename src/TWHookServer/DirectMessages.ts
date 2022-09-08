@@ -46,7 +46,7 @@ const handleConfig = async (message: TWDirectMessage) => {
   const userId = message.sender_id;
 
   const user = await UserInfo.findOne({ twId: hashId(userId) });
-  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
+  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
 
   const { apiToken, projectId } = decodeUser(user.userInfo);
 
@@ -58,7 +58,8 @@ const handleConfig = async (message: TWDirectMessage) => {
 
     sendDirectMessage(userId, generateConfigText({email, username, projectName, projectId}));
   } catch (e) {
-    return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
+    Bugsnag.notify(e);
+    return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: CONFIG_TDS_ERROR');
   }
 };
 
@@ -66,7 +67,7 @@ const handleDelete = async (message: TWDirectMessage) => {
   const userId = message.sender_id;
 
   const user = await UserInfo.findOne({ twId: hashId(userId) });
-  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
+  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
 
   sendDirectMessage(userId, TEXTS.ALERT_DELETE);
 };
@@ -75,7 +76,7 @@ const handleDeleteAll = async (message: TWDirectMessage) => {
   const userId = message.sender_id;
 
   const user = await UserInfo.findOne({ twId: hashId(userId) });
-  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
+  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
   const { apiToken } = decodeUser(user.userInfo);
 
   try {
@@ -86,8 +87,7 @@ const handleDeleteAll = async (message: TWDirectMessage) => {
 
   } catch (err) {
     Bugsnag.notify(err);
-    console.log(new Date(), err);
-    return sendDirectMessage(userId, TEXTS.CANT_DELETE);
+    return sendDirectMessage(userId, TEXTS.CANT_DELETE + '\n Err: DELETE_ERROR');
   }
 
   sendDirectMessage(userId, TEXTS.DELETED_ACCOUNT);
@@ -101,7 +101,7 @@ const handleProject = async (message: TWDirectMessage) => {
   if (!projectNum) return sendDirectMessage(userId, TEXTS.INVALID_PROJECT_NUM);
 
   const user = await UserInfo.findOne({ twId: hashId(userId) });
-  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
+  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
 
   const { apiToken, projectId } = decodeUser(user.userInfo);
 
@@ -109,7 +109,8 @@ const handleProject = async (message: TWDirectMessage) => {
   try {
     projects = await getTodoistProjects(apiToken);
   } catch (e) {
-    return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
+    Bugsnag.notify(e);
+    return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: TDS_ERROR');
   }
 
   const currentProject = projects.find(
@@ -148,7 +149,7 @@ const handleDefaultDM = async (message: TWDirectMessage) => {
   const userId = message.sender_id;
 
   const user = await UserInfo.findOne({ twId: hashId(userId) });
-  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
+  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
 
   const { apiToken, projectId } = decodeUser(user.userInfo);
 
@@ -163,8 +164,9 @@ const handleDefaultDM = async (message: TWDirectMessage) => {
       content: taskContent,
       projectId
     });
-  } catch {
-    return sendDirectMessage(userId, TEXTS.BAD_TOKEN);
+  } catch (e) {
+    Bugsnag.notify(e);
+    return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: TDS_ERROR');
   }
 
   sendDirectMessage(userId, TEXTS.ADDED_TO_ACCOUNT);
