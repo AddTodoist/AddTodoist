@@ -96,11 +96,9 @@ const handleDeleteAll = async (message: TWDirectMessage) => {
 const handleProject = async (message: TWDirectMessage) => {
   const userId = message.sender_id;
   const { text } = message.message_data;
-  const [isValidProjectNum, projectNum] = getProjectNumFromMessage(text);
+  const projectNum = getProjectNumFromMessage(text);
 
-  if (!isValidProjectNum) {
-    return sendDirectMessage(userId, TEXTS.INVALID_PROJECT_NUM);
-  }
+  if (!projectNum) return sendDirectMessage(userId, TEXTS.INVALID_PROJECT_NUM);
 
   const user = await UserInfo.findOne({ twId: hashId(userId) });
   if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN);

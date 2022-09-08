@@ -2,13 +2,13 @@ import axios from 'axios';
 import Client from 'todoist-rest-client';
 import { TWDirectMessage, URLEntity } from './DirectMessages';
 
-export const getProjectNumFromMessage = ( message: string ): [boolean, number] => {
+export const getProjectNumFromMessage = ( message: string ): number | null => {
   const projectNum = message.split(' ')[1];
   // regex for digit: /^\d+$/
   const isValidProjectNum = projectNum?.match(/^\d+$/);
 
-  if (!isValidProjectNum) return [false, NaN];
-  return [true, +isValidProjectNum[0]];
+  if (!isValidProjectNum) return null;
+  return +isValidProjectNum[0];
 };
 
 export const getMessageWithoutURL = ( message: TWDirectMessage, URLEntity: URLEntity): string => {
