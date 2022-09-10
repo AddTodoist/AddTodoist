@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Client from 'todoist-rest-client';
+import { TodoistApi } from '@doist/todoist-api-typescript';
 import { TWDirectMessage, URLEntity } from './DirectMessages';
 
 export const getProjectNumFromMessage = ( message: string ): number | null => {
@@ -19,7 +19,7 @@ export const getMessageWithoutURL = ( message: TWDirectMessage, URLEntity: URLEn
 };
 
 export const getTodoistUserData = async (token: string) => {
-  const { data } = await axios.post('https://api.todoist.com/sync/v8/sync',
+  const { data } = await axios.post('https://api.todoist.com/sync/v9/sync',
     { sync_token: '*', resource_types: ['user'] },
     { headers: { Authorization: `Bearer ${token}` } }
   );
@@ -29,20 +29,20 @@ export const getTodoistUserData = async (token: string) => {
 };
 
 export const addTodoistTask = ({content, token, projectId}: {content: string, token: string, projectId?: number}) => {
-  const tdsClient = Client(token);
-  return tdsClient.task.create({
+  const tdsClient = new TodoistApi(token);
+  return tdsClient.addTask({
     content,
-    project_id: projectId,
+    projectId,
   });
 };
 
 export const getTodoistProjects = (token: string) => {
-  const tdsClient = Client(token);
-  return tdsClient.project.getAll();
+  const tdsClient = new TodoistApi(token);
+  return tdsClient.getProjects();
 };
 
 export const revokeAccessToken = async (token: string) => {
-  const revokeUrl = 'https://api.todoist.com/sync/v8/access_tokens/revoke';
+  const revokeUrl = 'https://api.todoist.com/sync/v9/access_tokens/revoke';
   const { status } = await axios.post(revokeUrl, {
     client_id: process.env.TODOIST_CLIENT_ID,
     client_secret: process.env.TODOIST_CLIENT_SECRET,

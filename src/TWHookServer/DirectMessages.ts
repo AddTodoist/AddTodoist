@@ -1,4 +1,4 @@
-import { APIProjectObject } from 'todoist-rest-client/dist/definitions';
+import type { Project } from '@doist/todoist-api-typescript';
 import { sendDirectMessage } from 'TWAPI';
 import TEXTS, { generateConfigText, generateInitText } from './Texts.js';
 import { addTodoistTask, getMessageWithoutURL, getProjectNumFromMessage, getTodoistProjects, getTodoistUserData, revokeAccessToken } from './utils.js';
@@ -98,17 +98,18 @@ const handleProject = async (message: TWDirectMessage) => {
   const { text } = message.message_data;
   const projectNum = getProjectNumFromMessage(text);
 
-  if (!projectNum) return sendDirectMessage(userId, TEXTS.INVALID_PROJECT_NUM);
+  if (projectNum === null) return sendDirectMessage(userId, TEXTS.INVALID_PROJECT_NUM);
 
   const user = await UserInfo.findOne({ twId: hashId(userId) });
   if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
 
   const { apiToken, projectId } = decodeUser(user.userInfo);
 
-  let projects: APIProjectObject[];
+  let projects: Project[];
   try {
     projects = await getTodoistProjects(apiToken);
   } catch (e) {
+    console.log(e);
     Bugsnag.notify(e);
     return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: TDS_ERROR');
   }

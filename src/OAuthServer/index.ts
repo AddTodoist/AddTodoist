@@ -1,8 +1,7 @@
 import { createServer, RequestListener } from 'http';
 import { parse, URL } from 'url';
-import Client from 'todoist-rest-client';
+import { Project, TodoistApi } from '@doist/todoist-api-typescript';
 import axios from 'axios';
-import { APIProjectObject } from 'todoist-rest-client/dist/definitions';
 import { sendDirectMessage } from 'TWAPI';
 import TEXTS from './Texts.js';
 import UserInfo from 'DB';
@@ -70,12 +69,13 @@ const requestListener: RequestListener = async (req, res) => {
 
   await sendDirectMessage(twId, TEXTS.ACCOUNT_LINKED);
 
-  let projects: APIProjectObject[];
+  let projects: Project[];
 
   try {
-    const todoistClient = Client(token);
-    projects = await todoistClient.project.getAll();
+    const todoistClient = new TodoistApi(token);
+    projects = await todoistClient.getProjects();
   } catch (err) {
+    console.log(err);
     Bugsnag.notify(err);
     return sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 11`);
   }
