@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { TodoistApi } from '@doist/todoist-api-typescript';
-import { TWDirectMessage, URLEntity } from './DirectMessages';
 
 export const getProjectNumFromMessage = ( message: string ): number | null => {
   const projectNum = message.split(' ')[1];

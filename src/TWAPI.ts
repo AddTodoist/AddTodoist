@@ -3,9 +3,9 @@ import Bugsnag from 'bugsnag';
 
 const userClient = new TwitterApi({
   appKey: process.env.TWITTER_CONSUMER_KEY || '',
-  appSecret: process.env.TWITTER_CONSUMER_SECRET|| '' ,
-  accessToken: process.env.TWITTER_ACCESS_TOKEN|| '',
-  accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET|| '',
+  appSecret: process.env.TWITTER_CONSUMER_SECRET || '',
+  accessToken: process.env.TWITTER_ACCESS_TOKEN || '',
+  accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET || ''
 });
 
 export const tweet = async (status: string) => {
@@ -21,7 +21,7 @@ export const tweet = async (status: string) => {
 /**
  * Returns an array of userIds that are mentioned in the tweet but are not the original mentioner
  * @param tweet
- * @returns 
+ * @returns
  */
 const getExcludedFromReplyUsers = (tweet) => {
   const userMentions = tweet.entities.user_mentions;
@@ -35,7 +35,7 @@ export const responseTweet = async (tweet, response: string) => {
     await userClient.v2.reply(response, id_str, {
       reply: {
         exclude_reply_user_ids: getExcludedFromReplyUsers(tweet),
-        in_reply_to_tweet_id: id_str,
+        in_reply_to_tweet_id: id_str
       }
     });
   } catch (e) {
@@ -49,7 +49,7 @@ export const sendDirectMessage = async (userId: string, message: string) => {
   try {
     await userClient.v1.sendDm({
       recipient_id: userId,
-      text: message,
+      text: message
     });
   } catch (e) {
     Bugsnag.notify(e);
@@ -61,11 +61,11 @@ export const sendDirectMessage = async (userId: string, message: string) => {
 export const getOriginalTweet = async (tweetId: string) => {
   try {
     const mentionedInTweet = await userClient.v2.singleTweet(tweetId, {
-      'tweet.fields': 'conversation_id',
+      'tweet.fields': 'conversation_id'
     });
 
     const originalTweet = await userClient.v2.singleTweet(mentionedInTweet.data.conversation_id || '', {
-      'tweet.fields': ['author_id'],
+      'tweet.fields': ['author_id']
     });
 
     const url = `https://twitter.com/${originalTweet.data.author_id}/status/${originalTweet.data.id}`;

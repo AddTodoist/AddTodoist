@@ -89,7 +89,7 @@ const handleDeleteAll = async (message: TWDirectMessage) => {
     Bugsnag.notify(err);
     return sendDirectMessage(userId, TEXTS.CANT_DELETE + '\n Err: DELETE_ERROR');
   }
-
+  
   sendDirectMessage(userId, TEXTS.DELETED_ACCOUNT);
 };
 
@@ -175,18 +175,3 @@ const handleDefaultDM = async (message: TWDirectMessage) => {
 
 export const getMessage = (event): TWDirectMessage => event.direct_message_events[0].message_create;
 
-export type URLEntity = {
-  url: string,
-  expanded_url: string,
-  display_url: string,
-  indices: [number, number]
-}
-
-export type TWDirectMessage = {
-  target: Record<string, unknown>; // object
-  sender_id: string;
-  message_data: {
-    text: string;
-    entities: Record<string, unknown>; // object
-  };
-};
