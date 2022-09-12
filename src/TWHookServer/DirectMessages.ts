@@ -45,7 +45,7 @@ export const handleDirectMessage = async (message: TWDirectMessage) => {
 const handleConfig = async (message: TWDirectMessage) => {
   const userId = message.sender_id;
 
-  const user = await UserInfo.findOne({ twId: hashId(userId) });
+  const user = await UserInfo.findOne({ _id: hashId(userId) });
   if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
 
   const { apiToken, projectId } = decodeUser(user.userInfo);
@@ -66,7 +66,7 @@ const handleConfig = async (message: TWDirectMessage) => {
 const handleDelete = async (message: TWDirectMessage) => {
   const userId = message.sender_id;
 
-  const user = await UserInfo.findOne({ twId: hashId(userId) });
+  const user = await UserInfo.findOne({ _id: hashId(userId) });
   if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
 
   sendDirectMessage(userId, TEXTS.ALERT_DELETE);
@@ -75,7 +75,7 @@ const handleDelete = async (message: TWDirectMessage) => {
 const handleDeleteAll = async (message: TWDirectMessage) => {
   const userId = message.sender_id;
 
-  const user = await UserInfo.findOne({ twId: hashId(userId) });
+  const user = await UserInfo.findOne({ _id: hashId(userId) });
   if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
   const { apiToken } = decodeUser(user.userInfo);
 
@@ -100,7 +100,7 @@ const handleProject = async (message: TWDirectMessage) => {
 
   if (projectNum === null) return sendDirectMessage(userId, TEXTS.INVALID_PROJECT_NUM);
 
-  const user = await UserInfo.findOne({ twId: hashId(userId) });
+  const user = await UserInfo.findOne({ _id: hashId(userId) });
   if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
 
   const { apiToken, projectId } = decodeUser(user.userInfo);
@@ -149,7 +149,7 @@ const handleDefaultDM = async (message: TWDirectMessage) => {
 
   const userId = message.sender_id;
 
-  const user = await UserInfo.findOne({ twId: hashId(userId) });
+  const user = await UserInfo.findOne({ _id: hashId(userId) });
   if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
 
   const { apiToken, projectId } = decodeUser(user.userInfo);
