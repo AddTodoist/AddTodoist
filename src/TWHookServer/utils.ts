@@ -1,16 +1,16 @@
 import axios from 'axios';
 import { TodoistApi } from '@doist/todoist-api-typescript';
 
-export const getProjectNumFromMessage = ( message: string ): number | null => {
+export const getProjectNumFromMessage = ( message: string ) => {
   const projectNum = message.split(' ')[1];
   // regex for digit: /^\d+$/
   const isValidProjectNum = projectNum?.match(/^\d+$/);
 
   if (!isValidProjectNum) return null;
-  return +isValidProjectNum[0];
+  return Number(isValidProjectNum[0]);
 };
 
-export const getMessageWithoutURL = ( message: TWDirectMessage, URLEntity: URLEntity): string => {
+export const getMessageWithoutURL = ( message: TWDirectMessage, URLEntity: URLEntity) => {
   const textWithoutURL = message.message_data.text.slice(0, URLEntity.indices[0]).trim();
   const taskText = `[${textWithoutURL}](${URLEntity.expanded_url})`;
   return taskText;
