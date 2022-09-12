@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { TodoistApi } from '@doist/todoist-api-typescript';
+import { getTweetContent } from 'TWAPI';
 
 export const getProjectNumFromMessage = ( message: string ) => {
   const projectNum = message.split(' ')[1];
@@ -10,11 +11,16 @@ export const getProjectNumFromMessage = ( message: string ) => {
   return Number(isValidProjectNum[0]);
 };
 
-export const getMessageWithoutURL = ( message: TWDirectMessage, URLEntity: URLEntity) => {
+export const getUserCustomTaskContent = ( message: TWDirectMessage, URLEntity: URLEntity) => {
   const textWithoutURL = message.message_data.text.slice(0, URLEntity.indices[0]).trim();
   const taskText = `[${textWithoutURL}](${URLEntity.expanded_url})`;
   return taskText;
+};
 
+export const getDefaultTaskContent = async (url: string) => {
+  const text = await getTweetContent(url);
+  const truncatedPreviewText = text.substring(0, 42).concat('...');
+  return `${truncatedPreviewText} - ${url}`;
 };
 
 export const getTodoistUserData = async (token: string) => {

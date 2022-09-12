@@ -58,6 +58,18 @@ export const sendDirectMessage = async (userId: string, message: string) => {
   }
 };
 
+export const getTweetContent = async (url: string) => {
+  const id = url.split('/').pop() || '';
+  try {
+    const tweet = await userClient.v2.singleTweet(id);
+    return tweet.data.text;
+  } catch (e) {
+    Bugsnag.notify(e);
+    console.log(e);
+    return '';
+  }
+};
+
 export const getOriginalTweet = async (tweetId: string) => {
   try {
     const mentionedInTweet = await userClient.v2.singleTweet(tweetId, {

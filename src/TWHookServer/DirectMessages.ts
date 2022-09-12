@@ -1,7 +1,7 @@
 import type { Project } from '@doist/todoist-api-typescript';
 import { sendDirectMessage } from 'TWAPI';
 import TEXTS, { generateConfigText, generateInitText } from './Texts.js';
-import { addTodoistTask, getMessageWithoutURL, getProjectNumFromMessage, getTodoistProjects, getTodoistUserData, revokeAccessToken } from './utils.js';
+import { addTodoistTask, getDefaultTaskContent, getProjectNumFromMessage, getTodoistProjects, getTodoistUserData, getUserCustomTaskContent, revokeAccessToken } from './utils.js';
 import { decodeUser, encodeUser } from 'DB/encrypts.js';
 import Bugsnag from 'bugsnag';
 import { findUser } from 'utils/db.js';
@@ -156,8 +156,8 @@ const handleDefaultDM = async (message: TWDirectMessage) => {
 
   // get task content (just a tweet or custom text)
   const taskContent = tweetURLEntity.indices[0] === 0
-    ? tweetURLEntity.expanded_url
-    : getMessageWithoutURL(message, tweetURLEntity);
+    ? await getDefaultTaskContent(tweetURLEntity.expanded_url)
+    : getUserCustomTaskContent(message, tweetURLEntity);
 
   try {
     await addTodoistTask({
