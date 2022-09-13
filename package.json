@@ -20,15 +20,15 @@
     "@semantic-release/changelog": "6.0.1",
     "@semantic-release/exec": "6.0.3",
     "@types/jsonwebtoken": "8.5.9",
-    "@types/node": "18.7.16",
+    "@types/node": "18.7.17",
     "@types/twitter-autohook": "1.7.0",
-    "@typescript-eslint/eslint-plugin": "5.36.2",
-    "@typescript-eslint/parser": "5.36.2",
+    "@typescript-eslint/eslint-plugin": "5.37.0",
+    "@typescript-eslint/parser": "5.37.0",
     "commitizen": "4.2.5",
     "concurrently": "7.4.0",
     "cz-conventional-changelog": "3.3.0",
     "esbuild": "0.15.7",
-    "eslint": "8.23.0",
+    "eslint": "8.23.1",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.26.0",
     "nodemon": "2.0.19",
@@ -44,7 +44,7 @@
     "dotenv": "16.0.2",
     "jsonwebtoken": "8.5.1",
     "mongoose": "6.6.0",
-    "twitter-api-v2": "1.12.5"
+    "twitter-api-v2": "1.12.6"
   },
   "engines": {
     "node": ">=16"
