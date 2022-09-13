@@ -148,10 +148,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@doist/todoist-api-typescript@1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@doist/todoist-api-typescript/-/todoist-api-typescript-1.7.0.tgz#39cefe493a75e1d362b808f7f01db4e523133a6c"
-  integrity sha512-Pe7EGpwhLuxZEhxDmqwXZqc9DAESWl/l1VjFYSdGlNfcUI1KSPSW9Hs7le78EIqAxHFVxjgpcKkDkV9h+EaUlA==
+"@doist/todoist-api-typescript@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@doist/todoist-api-typescript/-/todoist-api-typescript-2.0.2.tgz#a75c8475dadd2900ccaa65f97c099bcfa68a26cc"
+  integrity sha512-X+Z1/hfzpRBELeufCS7LHqPsjVC1E3igP3Y+eexhyPtrmX3Dkyp8rGSzyV1egmQ8NMR/EGYhwy5nGkX4/bSpTA==
   dependencies:
     axios "^0.27.0"
     axios-case-converter "^0.9.0"

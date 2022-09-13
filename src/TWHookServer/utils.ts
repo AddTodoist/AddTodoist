@@ -33,7 +33,7 @@ export const getTodoistUserData = async (token: string) => {
   return user;
 };
 
-export const addTodoistTask = ({content, token, projectId}: {content: string, token: string, projectId?: number}) => {
+export const addTodoistTask = ({content, token, projectId}: {content: string, token: string, projectId?: string}) => {
   const tdsClient = new TodoistApi(token);
   return tdsClient.addTask({
     content,

@@ -46,7 +46,7 @@ const requestListener: RequestListener = async (req, res) => {
 
   let userInfo = encodeUser({
     apiToken: token,
-    projectId: 0,
+    projectId: '0',
   });
 
   const user = new UserInfo({

@@ -6,7 +6,7 @@ if (!secret) throw new Error('DB_SECRET is not set');
 
 type User = {
   apiToken: string;
-  projectId: number;
+  projectId: string;
 };
 
 export const hashId = (id: string) => crypto.createHash('sha256').update(id).digest('hex');

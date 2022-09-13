@@ -39,7 +39,7 @@
   "dependencies": {
     "@addtodoist/twitter-autohook": "2.1.0",
     "@bugsnag/js": "7.17.4",
-    "@doist/todoist-api-typescript": "1.7.0",
+    "@doist/todoist-api-typescript": "2.0.2",
     "axios": "0.27.2",
     "dotenv": "16.0.2",
     "jsonwebtoken": "8.5.1",
