@@ -12,7 +12,7 @@ To select a project send me\n\
 /project <number>\n\
 For example:\n\
 /project 0\n\
-By default your inbox is selected`,
+By default project 0 is selected`,
 }
 
 export default OAuthServerTexts;
