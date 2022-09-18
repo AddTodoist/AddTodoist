@@ -1,6 +1,6 @@
 import type { Project } from '@doist/todoist-api-typescript';
 import { sendDirectMessage } from 'TWAPI';
-import TEXTS, { generateConfigText, generateInitText } from './Texts.js';
+import TEXTS, { generateConfigText, generateInitText, generateInvalidDMText } from './Texts.js';
 import { addTodoistTask, getDefaultTaskContent, getProjectNumFromMessage, getTodoistProjects, getTodoistUserData, getUserCustomTaskContent, revokeAccessToken } from './utils.js';
 import { decodeUser, encodeUser } from 'DB/encrypts.js';
 import Bugsnag from 'bugsnag';
@@ -145,7 +145,7 @@ const handleProject = async (message: TWDirectMessage) => {
 const handleDefaultDM = async (message: TWDirectMessage) => {
   const urls = message.message_data.entities.urls as URLEntity[];
   const tweetURLEntity = urls.find(url => url.display_url.startsWith('twitter.com/')); // is or not a tweet DM
-  if (!tweetURLEntity) return;
+  if (!tweetURLEntity) return handleInvalidDM(message);
 
   const userId = message.sender_id;
 
@@ -173,5 +173,19 @@ const handleDefaultDM = async (message: TWDirectMessage) => {
   sendDirectMessage(userId, TEXTS.ADDED_TO_ACCOUNT);
 };
 
-export const getMessage = (event): TWDirectMessage => event.direct_message_events[0].message_create;
+const handleInvalidDM = async (message: TWDirectMessage) => {
+  const userId = message.sender_id;
+  sendDirectMessage(userId, generateInvalidDMText(message.sender_name));
+};
+
+export const getMessage = (event): TWDirectMessage =>  {
+  return { ...event.direct_message_events[0].message_create, sender_name: getDMSenderName(event)};
+  
+};
+
+const getDMSenderName = (event): string => {
+  const senderId = event.direct_message_events[0].message_create.sender_id;
+  const sender = event.users[senderId];
+  return sender.name;
+};
 

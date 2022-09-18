@@ -29,4 +29,9 @@ export const generateConfigText = ({
 - Email: ${email}\n\
 - Project: ${projectName} (id: ${projectId})`;
 
+export const generateInvalidDMText = (username: string) => `
+🔴 Welcome ${username}!\n\
+It seems like you have sent me an invalid message.\n\
+Please, send me a valid command or type \n'/init'\nto start your account configuration.`;
+
 export default TWHookServerTexts;

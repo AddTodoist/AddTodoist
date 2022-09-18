@@ -8,6 +8,7 @@ declare global {
   type TWDirectMessage = {
     target: Record<string, unknown>;
     sender_id: string;
+    sender_name: string;
     message_data: {
       text: string;
       entities: Record<string, unknown>;
