@@ -62,12 +62,18 @@ export const getTweetContent = async (url: string) => {
   const id = url.split('/').pop() || '';
   try {
     const tweet = await userClient.v2.singleTweet(id);
-    return tweet.data.text;
+    const text = getTextWithoutUrls(tweet.data.text);
+
+    return text.length > 0 ? text : '🔗 Media';
   } catch (e) {
     Bugsnag.notify(e);
     console.log(e);
     return '';
   }
+};
+
+const getTextWithoutUrls = (url: string) => {
+  return url.replaceAll(/https:\/\/t.co\/[^\s]+/g, '').trim();
 };
 
 export const getOriginalTweet = async (tweetId: string) => {

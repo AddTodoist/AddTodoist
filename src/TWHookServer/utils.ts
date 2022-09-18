@@ -19,7 +19,11 @@ export const getUserCustomTaskContent = ( message: TWDirectMessage, URLEntity: U
 
 export const getDefaultTaskContent = async (url: string) => {
   const text = await getTweetContent(url);
-  const truncatedPreviewText = text.substring(0, 42).concat('...');
+
+  const truncatedPreviewText = text.length <= 45
+    ? text
+    : `${text.slice(0, 42)}...`;
+
   return `${truncatedPreviewText} - ${url}`;
 };
 
