@@ -37,7 +37,7 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@addtodoist/twitter-autohook": "2.1.0",
+    "@addtodoist/twitter-autohook": "2.2.0",
     "@bugsnag/js": "7.17.4",
     "@doist/todoist-api-typescript": "2.0.2",
     "axios": "0.27.2",

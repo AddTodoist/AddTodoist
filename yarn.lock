@@ -2,14 +2,14 @@
 # yarn lockfile v1
 
 
-"@addtodoist/twitter-autohook@2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@addtodoist/twitter-autohook/-/twitter-autohook-2.1.0.tgz#96a711f1805ceb3c8bc2c5530ad001ef6a97c99d"
-  integrity sha512-hlHCcdYCV7DyAY7+0joi0ALwmXsx034RZcW9lcKftNrkMTZXNT9zle4joacIsR5mvk3Z5vrlL8hnk09byOaNWQ==
+"@addtodoist/twitter-autohook@2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@addtodoist/twitter-autohook/-/twitter-autohook-2.2.0.tgz#887fcb8db015414f371e8864259312a811d34900"
+  integrity sha512-9UaNIdXCE7ur3iGOB0PZkcrgEuzDt++Dme2OpJk9Rr+ZEybJzqSBYg9M80nu9BtmkB0rgALciWqscKAt9j3IhQ==
   dependencies:
-    dotenv "16.0.1"
+    dotenv "16.0.2"
     needle "3.1.0"
-    ngrok "4.3.1"
+    ngrok "4.3.3"
 
 "@babel/code-frame@^7.0.0":
   version "7.16.7"
@@ -1951,11 +1951,6 @@ dot-prop@^5.1.0:
   dependencies:
     is-obj "^2.0.0"
 
-dotenv@16.0.1:
-  version "16.0.1"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.1.tgz#8f8f9d94876c35dac989876a5d3a82a267fdce1d"
-  integrity sha512-1K6hR6wtk2FviQ4kEiSjFiH5rpzEVi8WW0x96aztHVMhEspNpc4DVOUTEHtEva5VThQ8IaBX1Pe4gSzpVVUsKQ==
-
 dotenv@16.0.2:
   version "16.0.2"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.2.tgz#0b0f8652c016a3858ef795024508cddc4bffc5bf"
@@ -2822,7 +2817,7 @@ globby@^11.0.0, globby@^11.0.1, globby@^11.1.0:
     merge2 "^1.4.1"
     slash "^3.0.0"
 
-got@^11.5.1:
+got@^11.8.5:
   version "11.8.5"
   resolved "https://registry.yarnpkg.com/got/-/got-11.8.5.tgz#ce77d045136de56e8f024bebb82ea349bc730046"
   integrity sha512-o0Je4NvQObAuZPHLFoRSkdG2lTgtcynqymzg2Vupdx6PorhaT5MCbIyXG6d4D94kk8ZG57QeosgdiqfJWhEhlQ==
@@ -4206,14 +4201,14 @@ nerf-dart@^1.0.0:
   resolved "https://registry.yarnpkg.com/nerf-dart/-/nerf-dart-1.0.0.tgz#e6dab7febf5ad816ea81cf5c629c5a0ebde72c1a"
   integrity sha512-EZSPZB70jiVsivaBLYDCyntd5eH8NTSMOn3rB+HxwdmKThGELLdYv8qVIMWvZEFy9w8ZZpW9h9OB32l1rGtj7g==
 
-ngrok@4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/ngrok/-/ngrok-4.3.1.tgz#d9e77b6d647bb1f49659601f89b31efac8478523"
-  integrity sha512-s0joO2liKYiGTVARyzL8hfLIXAZT03GDK3oJqsZK6d61Es+HCx77j8E9ysUbtkMEyvBgYmIMr8taQNsvQt4/DQ==
+ngrok@4.3.3:
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/ngrok/-/ngrok-4.3.3.tgz#c51a1c4af2271ac3c9092ede3b0975caf7833217"
+  integrity sha512-a2KApnkiG5urRxBPdDf76nNBQTnNNWXU0nXw0SsqsPI+Kmt2lGf9TdVYpYrHMnC+T9KhcNSWjCpWqBgC6QcFvw==
   dependencies:
     "@types/node" "^8.10.50"
     extract-zip "^2.0.1"
-    got "^11.5.1"
+    got "^11.8.5"
     lodash.clonedeep "^4.5.0"
     uuid "^7.0.0 || ^8.0.0"
     yaml "^1.10.0"

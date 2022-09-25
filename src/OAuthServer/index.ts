@@ -25,11 +25,15 @@ export async function setupOAuthServer() {
 const requestListener: RequestListener = async (req, res) => {
   const { pathname: path, query } = parse(req.url as string, true);
   
+  if (path === '/status') {
+    return res.writeHead(200).end();
+  }
+
   // only accept reqests to oauth endpoint
   if (path !== '/redirect/oauth') {
     return res.writeHead(301, { Location: 'https://dubis.dev' }).end();
   }
-
+  
   const { code, state, error } = query;
 
   if (error === 'access_denied') return res.writeHead(301, { Location: 'https://twitter.com/messages' }).end();
