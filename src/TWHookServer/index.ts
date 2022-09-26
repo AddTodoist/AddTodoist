@@ -1,9 +1,5 @@
 import { Autohook } from '@addtodoist/twitter-autohook';
-import {
-  handleDirectMessage,
-  directMessageRecieved,
-  getMessage,
-} from './DirectMessages.js';
+import { handleDirectMessage, directMessageRecieved, getMessage } from './DirectMessages';
 
 export async function setupAutohookServer() {
   const autohook = await createAutohook();

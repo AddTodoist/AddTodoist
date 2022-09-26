@@ -14,6 +14,7 @@ declare global {
       entities: Record<string, unknown>;
     };
   };
+  type DMHandler = (message: TWDirectMessage) => Promise<void>
 }
 
 export { };
