@@ -1,12 +1,17 @@
 import { getTweetContent } from 'TWAPI';
 
+/**
+ * Recieves as parameter a user message that must match the `/project <number>` format
+ * and returns the number if it matches, otherwise returns null
+ */
 export const getProjectNumFromMessage = ( message: string ) => {
-  const projectNum = message.split(' ')[1];
-  // regex for digit: /^\d+$/
-  const isValidProjectNum = projectNum?.match(/^\d+$/);
+  if (typeof message !== 'string') return null;
+
+  // regex for digits: /\d+/
+  const isValidProjectNum = message.trim().match(/^\/project (\d+)$/);
 
   if (!isValidProjectNum) return null;
-  return Number(isValidProjectNum[0]);
+  return Number(isValidProjectNum[1]);
 };
 
 export const getUserCustomTaskContent = ( message: TWDirectMessage, URLEntity: URLEntity) => {
