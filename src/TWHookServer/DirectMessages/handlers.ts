@@ -5,7 +5,7 @@ import { getProjectNumFromMessage, getDefaultTaskContent, getUserCustomTaskConte
 import { decodeUser, encodeUser } from 'DB/encrypts.js';
 import Bugsnag from 'bugsnag';
 import { findUser } from 'utils/db.js';
-import { sendDirectMessage } from 'TWAPI';
+import { getOriginalTweet, sendDirectMessage } from 'TWAPI';
 
 const handleConfig: DMHandler = async (message) => {
   const userId = message.sender_id;
@@ -148,6 +148,40 @@ const handleInit: DMHandler = async (message) => {
   sendDirectMessage(userId, generateInitText(userId));
 };
 
+const handleMain = async (message: TWDirectMessage) => {
+  const urls = message.message_data.entities.urls as URLEntity[];
+  const tweetURLEntity = urls.find(url => url.display_url.startsWith('twitter.com/')); // is or not a tweet DM
+  if (!tweetURLEntity) return handleInvalidDM(message);
+
+  const userId = message.sender_id;
+
+  const user = await findUser(userId);
+  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
+  
+  const { apiToken, projectId } = decodeUser(user.userInfo);
+  
+  // get the head tweet of a thread
+  const mainTweetURL = tweetURLEntity.expanded_url;
+  const mainTweetId = mainTweetURL.split('/').pop() as string;
+  const originalTweet = await getOriginalTweet(mainTweetId);
+  if (!originalTweet) return; // TODO - handle this
+
+  const content = await getDefaultTaskContent(originalTweet.url); // TODO - improve this as we already have the content and is not necessary to get it again
+
+  try {
+    await addTodoistTask({
+      token: apiToken,
+      content,
+      projectId
+    });
+  } catch (e) {
+    Bugsnag.notify(e);
+    return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: TDS_ERROR');
+  }
+  
+  sendDirectMessage(userId, TEXTS.ADDED_TO_ACCOUNT);
+};
+
 export {
   handleInit,
   handleConfig,
@@ -155,4 +189,5 @@ export {
   handleDeleteAll,
   handleProject,
   handleDefaultDM,
+  handleMain
 };

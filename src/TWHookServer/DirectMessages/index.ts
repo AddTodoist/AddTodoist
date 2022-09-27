@@ -1,6 +1,6 @@
-import { handleConfig, handleProject, handleDefaultDM, handleDelete, handleDeleteAll, handleInit } from './handlers';
+import { handleConfig, handleProject, handleDefaultDM, handleDelete, handleDeleteAll, handleInit, handleMain } from './handlers';
 
-type VALID_COMMANDS =  '/init' | '/project' | '/config' | '/delete' | '/deleteall' | 'DEFAULT';
+type VALID_COMMANDS =  '/init' | '/project' | '/config' | '/delete' | '/deleteall' | '#main' | 'DEFAULT';
 // "/help",
 
 const handlers: Record<VALID_COMMANDS, DMHandler> = {
@@ -9,6 +9,7 @@ const handlers: Record<VALID_COMMANDS, DMHandler> = {
   '/config': handleConfig,
   '/delete': handleDelete,
   '/deleteall': handleDeleteAll,
+  '#main': handleMain,
   DEFAULT: handleDefaultDM,
 };
 

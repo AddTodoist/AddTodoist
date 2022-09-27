@@ -11,7 +11,12 @@ declare global {
     sender_name: string;
     message_data: {
       text: string;
-      entities: Record<string, unknown>;
+      entities: {
+        hashtags: { text: string, indices: any[]}[];
+        symbols: any[];
+        user_mentions: any[];
+        urls: URLEntity[];
+      };
     };
   };
   type DMHandler = (message: TWDirectMessage) => Promise<void>
