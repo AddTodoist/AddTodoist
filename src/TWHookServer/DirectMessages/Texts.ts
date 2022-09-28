@@ -7,6 +7,7 @@ enum TWHookServerTexts {
   CANT_DELETE = '🔴 Can\'t delete your account. Try again. If the problem persists, contact @dubisdev_',
   DELETED_ACCOUNT = '🔴 All your account data has been deleted',
   ALERT_DELETE = '🔴 Are you sure you want to delete your account? This action CAN NOT be undone. \nType\n/deleteall\nto continue',
+  HELP = '🔴 Available Commands:\n\n/init - Set up your account\n/config - Get your account data\n/delete - Delete your account\n/project <number> - Set up your default project\n/help - Shows this message\n\n⚠️ Don\'t forget the slash (/) before the command'
 }
 
 export const generateInitText = (userId: string) => `
@@ -30,8 +31,13 @@ export const generateConfigText = ({
 - Project: ${projectName} (id: ${projectId})`;
 
 export const generateInvalidDMText = (username: string) => `
-🔴 Welcome ${username}!\n\
-It seems like you have sent me an invalid message.\n\
-Please, send me a valid command or type \n'/init'\nto start your account configuration.`;
+🔴 Welcome ${username}!\n\n\
+It seems like you have sent me an invalid message.\n\n\
+Please, send me a valid command or type\n\
+'/init'\n\
+to start your account configuration.\n\n\
+For more information type\n\
+'/help'\n\n\
+⚠️ Don't forget the slash (/) before the commands`;
 
 export default TWHookServerTexts;

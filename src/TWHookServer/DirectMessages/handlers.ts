@@ -148,6 +148,11 @@ const handleInit: DMHandler = async (message) => {
   sendDirectMessage(userId, generateInitText(userId));
 };
 
+const handleHelp: DMHandler = async (message) => {
+  const userId = message.sender_id;
+  sendDirectMessage(userId, TEXTS.HELP);
+};
+
 const handleMain = async (message: TWDirectMessage) => {
   const urls = message.message_data.entities.urls as URLEntity[];
   const tweetURLEntity = urls.find(url => url.display_url.startsWith('twitter.com/')); // is or not a tweet DM
@@ -184,6 +189,7 @@ const handleMain = async (message: TWDirectMessage) => {
 
 export {
   handleInit,
+  handleHelp,
   handleConfig,
   handleDelete,
   handleDeleteAll,
