@@ -19,7 +19,7 @@
 1. Sign up to your Twitter account
 2. Search for [@AddTodoist Twitter account](https://twitter.com/AddToDoist)
 3. (Optional) Follow the account to get notified about the bot updates (is free and helps a lot 🚀)
-4. Set up your account (Just the first time)
+4. [Set up](#set-up-your-account) your account (Just the first time)
 5. Start saving tweets by sending them to the bot by DM
 
 > If you are receiving an error message, please check the [errors documentation](errors.md)
@@ -51,3 +51,7 @@ The bot features can be accessed by sending one of these commands (⚠️ Don't 
 The bot has associated hosting costs so any help to cover them is welcome. You can do it through a small donation at [BuyMeACoffee](https://www.buymeacoffee.com/dubisdev). Also any feedback, [issue](https://github.com/AddToDoist/AddToDoist/issues) or PR is welcome 💗. Don't forget to ⭐star the repository.
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/dubisdev)
+
+## License
+
+See the [LICENSE](./LICENSE.md) file for license rights and limitations.
