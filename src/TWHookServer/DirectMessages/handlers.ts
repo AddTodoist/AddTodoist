@@ -176,6 +176,7 @@ const handleMain = async (message: TWDirectMessage) => {
   try {
     await addTodoistTask({
       token: apiToken,
+      labels: ['🧵Thread'],
       content,
       projectId
     });

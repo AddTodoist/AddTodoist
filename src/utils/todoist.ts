@@ -15,9 +15,10 @@ export const getTodoistUserData = async (token: string) => {
   return user;
 };
   
-export const addTodoistTask = ({content, token, projectId}: {content: string, token: string, projectId?: string}) => {
+export const addTodoistTask = ({content, token, projectId, labels}: {content: string, token: string, projectId?: string, labels?: string[]}) => {
   const tdsClient = new TodoistApi(token);
   return tdsClient.addTask({
+    labels,
     content,
     projectId,
   });
