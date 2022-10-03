@@ -126,6 +126,7 @@ const handleDefaultDM: DMHandler = async (message) => {
   
   try {
     await addTodoistTask({
+      labels: ['🐦Tweets'],
       token: apiToken,
       content: taskContent,
       projectId
