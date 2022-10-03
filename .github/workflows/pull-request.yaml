@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [ main ]
 jobs:
-  "Lint Code":
+  LINT_CODE:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
