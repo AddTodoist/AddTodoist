@@ -2,16 +2,26 @@ name: Pull Request Handler
 on:
   pull_request:
     branches: [ main ]
+
 jobs:
-  LINT_CODE:
+  run-linters:
+    name: Run linters
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 16
 
       - name: Install dependencies
         run: yarn
-      - name: Lint
-        run: yarn lint
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          eslint: true
