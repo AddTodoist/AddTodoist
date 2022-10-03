@@ -1,8 +1,8 @@
-> **⚠️ Not linked to @Doist or @Todoist**
-
-## @AddTodoist &nbsp; [![Release status](https://github.com/AddTodoist/AddTodoist/actions/workflows/release.yml/badge.svg)](https://github.com/AddTodoist/AddTodoist/actions/workflows/release.yml) ![Auth Server Status](https://img.shields.io/website?down_color=red&down_message=offline&label=Auth%20Server&up_color=green&up_message=online&url=https%3A%2F%2Faddtodoist-oauth.dubis.dev%2Fstatus) ![DM Server Status](https://img.shields.io/website?down_color=red&down_message=offline&label=DM%20Server&up_color=green&up_message=online&url=https%3A%2F%2Faddtodoist-webhooks.dubis.dev%2Fstatus)
+## @AddTodoist &nbsp; ![User Count](https://img.shields.io/endpoint?color=green&style=flat-square&url=https%3A%2F%2Faddtodoist-oauth.dubis.dev%2Fusercount) [![Release status](https://img.shields.io/github/workflow/status/AddTodoist/AddTodoist/Release?color=green&label=Release&logo=github&style=flat-square)](https://github.com/AddTodoist/AddTodoist/actions/workflows/release.yml) ![Auth Server Status](https://img.shields.io/website?down_color=red&down_message=offline&label=Auth%20Server&up_color=green&up_message=online&url=https%3A%2F%2Faddtodoist-oauth.dubis.dev%2Fstatus&style=flat-square) ![DM Server Status](https://img.shields.io/website?down_color=red&down_message=offline&label=DM%20Server&up_color=green&up_message=online&url=https%3A%2F%2Faddtodoist-webhooks.dubis.dev%2Fstatus&style=flat-square)
 
 🤖 ***A Twitter bot that will help you save tweets and threads to your Todoist account***
+
+> **⚠️ Not linked to @Doist or @Todoist**
 
 ## About the project
 

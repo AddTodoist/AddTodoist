@@ -29,6 +29,19 @@ const requestListener: RequestListener = async (req, res) => {
     return res.writeHead(200).end();
   }
 
+  if (path === '/usercount') {
+    const count = await UserInfo.countDocuments();
+    const TWO_HOURS_IN_SECONDS = 60 * 60 * 2;
+    // https://shields.io/endpoint
+    const shieldResponse = {
+      schemaVersion: 1,
+      label: 'Total Users',
+      message: count,
+      cacheSeconds: TWO_HOURS_IN_SECONDS
+    };
+    return res.writeHead(200).end(JSON.stringify(shieldResponse));
+  }
+
   // only accept reqests to oauth endpoint
   if (path !== '/redirect/oauth') {
     return res.writeHead(301, { Location: 'https://dubis.dev' }).end();
