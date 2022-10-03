@@ -12,7 +12,7 @@ declare global {
     message_data: {
       text: string;
       entities: {
-        hashtags: { text: string, indices: any[]}[];
+        hashtags: { text: string, indices: any[] }[];
         symbols: any[];
         user_mentions: any[];
         urls: URLEntity[];
@@ -20,6 +20,9 @@ declare global {
     };
   };
   type DMHandler = (message: TWDirectMessage) => Promise<void>
+  type COMMANDS = '/init' | '/help' | '/project' | '/config' | '/delete' | '/deleteall';
+  type OPTIONS = '#main'
+  type VALID_MESSAGES = COMMANDS | OPTIONS | 'DEFAULT';
 }
 
 export { };

@@ -1,8 +1,6 @@
 import { handleConfig, handleProject, handleDefaultDM, handleDelete, handleDeleteAll, handleInit, handleMain, handleHelp } from './handlers';
 
-type VALID_COMMANDS =  '/init' | '/help' | '/project' | '/config' | '/delete' | '/deleteall' | '#main' | 'DEFAULT';
-
-const handlers: Record<VALID_COMMANDS, DMHandler> = {
+const handlers: Record<VALID_MESSAGES, DMHandler> = {
   '/init': handleInit,
   '/help': handleHelp,
   '/project': handleProject,
