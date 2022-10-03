@@ -1,4 +1,5 @@
 import { handleConfig, handleProject, handleDefaultDM, handleDelete, handleDeleteAll, handleInit, handleMain, handleHelp } from './handlers';
+import { handleSettings } from './settings/handleSettings';
 
 const handlers: Record<VALID_MESSAGES, DMHandler> = {
   '/init': handleInit,
@@ -7,6 +8,7 @@ const handlers: Record<VALID_MESSAGES, DMHandler> = {
   '/config': handleConfig,
   '/delete': handleDelete,
   '/deleteall': handleDeleteAll,
+  '/settings': handleSettings,
   '#main': handleMain,
   DEFAULT: handleDefaultDM,
 };

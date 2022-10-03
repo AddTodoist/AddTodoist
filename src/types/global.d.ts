@@ -20,7 +20,7 @@ declare global {
     };
   };
   type DMHandler = (message: TWDirectMessage) => Promise<void>
-  type COMMANDS = '/init' | '/help' | '/project' | '/config' | '/delete' | '/deleteall';
+  type COMMANDS = '/init' | '/help' | '/project' | '/config' | '/delete' | '/deleteall' | '/settings';
   type OPTIONS = '#main'
   type VALID_MESSAGES = COMMANDS | OPTIONS | 'DEFAULT';
 }
