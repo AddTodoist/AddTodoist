@@ -1,3 +1,5 @@
+import { Task } from '@doist/todoist-api-typescript';
+
 declare global {
   type URLEntity = {
     url: string,
@@ -19,9 +21,14 @@ declare global {
       };
     };
   };
+
+  type CustomTask = {content: string, token: string, projectId?: string, labels?: string[], parentId?: string, order?: number }
+
+  type TodoistTaskAdder = (task: CustomTask) => Promise<Task>;
+
   type DMHandler = (message: TWDirectMessage) => Promise<void>
   type COMMANDS = '/init' | '/help' | '/project' | '/config' | '/delete' | '/deleteall' | '/settings';
-  type OPTIONS = '#main'
+  type OPTIONS = '#main' | '#thread'
   type VALID_MESSAGES = COMMANDS | OPTIONS | 'DEFAULT';
 }
 
