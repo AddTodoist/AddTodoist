@@ -36,7 +36,7 @@ const requestListener: RequestListener = async (req, res) => {
     const shieldResponse = {
       schemaVersion: 1,
       label: 'Total Users',
-      message: count,
+      message: String(count),
       cacheSeconds: TWO_HOURS_IN_SECONDS
     };
     return res.writeHead(200).end(JSON.stringify(shieldResponse));
