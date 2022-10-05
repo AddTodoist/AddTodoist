@@ -86,9 +86,11 @@ export const getOriginalTweet = async (tweetId: string) => {
       'tweet.fields': ['author_id']
     });
 
-    const url = `https://twitter.com/${originalTweet.data.author_id}/status/${originalTweet.data.id}`;
+    const { id, author_id, text } = originalTweet.data;
 
-    return { url, text: originalTweet.data.text };
+    const url = `https://twitter.com/${author_id}/status/${id}`;
+
+    return { url, text, id, author_id };
   } catch (e) {
     Bugsnag.notify(e);
     console.log('Couldn Get Original Tweet :(. Err: ', e);
@@ -96,7 +98,23 @@ export const getOriginalTweet = async (tweetId: string) => {
   }
 };
 
-export const getResponseTweet = async (tweetId: string, userId: string) => {
-  const url = `https://twitter.com/${userId}/status/${tweetId}`;
-  return url;
+export const getThread = async (tweetId: string) => {
+  const firstTweetOfThread = await getOriginalTweet(tweetId);
+  if (!firstTweetOfThread) return null;
+
+  const query = `conversation_id:${firstTweetOfThread.id} from:${firstTweetOfThread.author_id} to:${firstTweetOfThread.author_id}`;
+  
+  try {
+    const thread = await userClient.v2.search(query, { max_results: 100 });
+
+    const fullThread = [ firstTweetOfThread, ...thread.tweets.reverse() ];
+
+    return fullThread;
+  } catch (e) {
+    Bugsnag.notify(e);
+    console.log('Couldn Get Thread :(. Err: ', e);
+    console.log(e);
+    return null;
+  }
+
 };
