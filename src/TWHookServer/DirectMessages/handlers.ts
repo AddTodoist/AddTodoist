@@ -5,7 +5,7 @@ import { getProjectNumFromMessage, getDefaultTaskContent, getUserCustomTaskConte
 import { decodeUser, encodeUser } from 'DB/encrypts.js';
 import Bugsnag from 'bugsnag';
 import { findUser } from 'utils/db.js';
-import { getOriginalTweet, sendDirectMessage } from 'TWAPI';
+import { getOriginalTweet, getThread, sendDirectMessage } from 'TWAPI';
 
 const handleConfig: DMHandler = async (message) => {
   const userId = message.sender_id;
@@ -189,6 +189,50 @@ const handleMain = async (message: TWDirectMessage) => {
   sendDirectMessage(userId, TEXTS.ADDED_TO_ACCOUNT);
 };
 
+const handleThread = async (message: TWDirectMessage) => {
+  const urls = message.message_data.entities.urls as URLEntity[];
+  const tweetURLEntity = urls.find(url => url.display_url.startsWith('twitter.com/')); // is or not a tweet DM
+  if (!tweetURLEntity) return handleInvalidDM(message);
+
+  const userId = message.sender_id;
+
+  const user = await findUser(userId);
+  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
+  
+  const { apiToken, projectId } = decodeUser(user.userInfo);
+  
+  // get the head tweet of a thread
+  const mainTweetURL = tweetURLEntity.expanded_url;
+  const mainTweetId = mainTweetURL.split('/').pop() as string;
+  const thread = await getThread(mainTweetId);
+
+  if (!thread) return; // TODO - Add tweet as a task (it can fail if the tweet is not public or if it is more than 7 days old [see twitter api docs])
+
+  const mainTask = await addTodoistTask({
+    token: apiToken,
+    projectId,
+    labels: ['🧵Thread'],
+    content: thread[0].text
+  });
+
+  const addTasksPromise = thread.slice(1, 5).map((tweet, index) => addTodoistTask({
+    token: apiToken,
+    projectId,
+    content: tweet.text,
+    parentId: mainTask.id,
+    order: index
+  }));
+
+  try {
+    await Promise.all(addTasksPromise);
+  } catch (e) {
+    return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: TDS_ERROR');
+  }
+
+  sendDirectMessage(userId, TEXTS.ADDED_TO_ACCOUNT);
+
+};
+
 export {
   handleInit,
   handleHelp,
@@ -197,5 +241,6 @@ export {
   handleDeleteAll,
   handleProject,
   handleDefaultDM,
-  handleMain
+  handleMain,
+  handleThread
 };
