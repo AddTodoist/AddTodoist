@@ -1,7 +1,7 @@
+import CryptoJS from 'crypto-js';
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
 
-const secret = process.env.DB_SECRET || null;
+const secret = process.env.DB_SECRET || 'null';
 if (!secret) throw new Error('DB_SECRET is not set');
 
 type User = {
@@ -9,7 +9,7 @@ type User = {
   projectId: string;
 };
 
-export const hashId = (id: string) => crypto.createHash('sha256').update(id).digest('hex');
+export const hashId = (id: string) => CryptoJS.SHA256(id).toString();
 
 export const encodeUser = (user: User) => jwt.sign(user, secret, { noTimestamp: true });
 
