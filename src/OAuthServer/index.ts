@@ -5,7 +5,7 @@ import axios from 'axios';
 import { sendDirectMessage } from 'TWAPI';
 import TEXTS from './Texts.js';
 import UserInfo from 'DB';
-import { encodeUser, hashId } from 'DB/encrypts.js';
+import { encryptString, hashId } from 'DB/encrypts.js';
 import Bugsnag from 'bugsnag';
 
 export async function setupOAuthServer() {
@@ -61,14 +61,10 @@ const requestListener: RequestListener = async (req, res) => {
 
   if (!token) return sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 9`);
 
-  let userInfo = encodeUser({
-    apiToken: token,
-    projectId: '0',
-  });
-
   const user = new UserInfo({
     _id: hashId(twId),
-    userInfo,
+    todoistToken: encryptString(token),
+    todoistProjectId: '0',
   });
 
   try {
@@ -97,12 +93,7 @@ const requestListener: RequestListener = async (req, res) => {
     return sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 11`);
   }
 
-  userInfo = encodeUser({
-    apiToken: token,
-    projectId: projects[0].id,
-  });
-
-  user.userInfo = userInfo;
+  user.todoistProjectId = projects[0].id;
 
   try {
     await user.save();

@@ -46,11 +46,6 @@ declare global {
      */
     _id: string;
     /**
-     * @deprecated
-     * Encrypted JWT that contains { apiToken: string, projectId: string }
-     */
-    userInfo: string;
-    /**
      * Todoist **encrypted** token
      */
     todoistToken: string;
