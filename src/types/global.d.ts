@@ -1,6 +1,9 @@
-import { Task } from '@doist/todoist-api-typescript';
+import type { Task } from '@doist/todoist-api-typescript';
+import type { Document } from 'mongoose';
 
 declare global {
+  type DBUserInstance = Document<unknown, any, IUserInfo> & IUserInfo & Required<{ _id: string }>
+
   type URLEntity = {
     url: string,
     expanded_url: string,
@@ -26,19 +29,7 @@ declare global {
 
   type TodoistTaskAdder = (task: CustomTask) => Promise<Task>;
 
-  type DMHandler = (message: TWDirectMessage) => Promise<void>
-
-  /**
-   * Commands are the valid messages that the bot can receive by DM (without a tweet)
-   */
-  type COMMANDS = '/init' | '/help' | '/project' | '/config' | '/delete' | '/deleteall' | '/settings';
-  
-  /**
-   * Options are special messages that can be sent with the Tweet by DM that causes the bot to do something special.
-   */
-  type OPTIONS = '#main' | '#thread'
-
-  type VALID_MESSAGES = COMMANDS | OPTIONS | 'DEFAULT';
+  type DMHandlerFunction = (message: TWDirectMessage, user: DBUserInstance) => Promise<void>;
 
   interface IUserInfo {
     /**

@@ -4,15 +4,11 @@ import { getTodoistProjects, getTodoistUserData, revokeAccessToken, addTodoistTa
 import { getProjectNumFromMessage, getDefaultTaskContent, getUserCustomTaskContent } from 'utils/texts.js';
 import { decryptString } from 'DB/encrypts.js';
 import Bugsnag from 'bugsnag';
-import { findUser } from 'utils/db.js';
 import { getOriginalTweet, getThread, sendDirectMessage } from 'TWAPI';
 
-const handleConfig: DMHandler = async (message) => {
+const handleConfig: DMHandlerFunction = async (message, user) => {
   const userId = message.sender_id;
-  
-  const user = await findUser(userId);
-  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
-  
+
   const { todoistToken, todoistProjectId: projectId } = user;
   const apiToken = decryptString(todoistToken);
   
@@ -29,20 +25,14 @@ const handleConfig: DMHandler = async (message) => {
   }
 };
   
-const handleDelete: DMHandler = async (message) => {
+const handleDelete: DMHandlerFunction = async (message) => {
   const userId = message.sender_id;
-  
-  const user = await findUser(userId);
-  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
   
   sendDirectMessage(userId, TEXTS.ALERT_DELETE);
 };
   
-const handleDeleteAll: DMHandler = async (message) => {
+const handleDeleteAll: DMHandlerFunction = async (message, user) => {
   const userId = message.sender_id;
-  
-  const user = await findUser(userId);
-  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
 
   const apiToken = decryptString(user.todoistToken);
   
@@ -60,15 +50,12 @@ const handleDeleteAll: DMHandler = async (message) => {
   sendDirectMessage(userId, TEXTS.DELETED_ACCOUNT);
 };
   
-const handleProject: DMHandler = async (message) => {
+const handleProject: DMHandlerFunction = async (message, user) => {
   const userId = message.sender_id;
   const { text } = message.message_data;
   const projectNum = getProjectNumFromMessage(text);
   
   if (projectNum === null) return sendDirectMessage(userId, TEXTS.INVALID_PROJECT_NUM);
-  
-  const user = await findUser(userId);
-  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
   
   const { todoistToken, todoistProjectId: projectId } = user;
   const apiToken = decryptString(todoistToken);
@@ -94,9 +81,8 @@ const handleProject: DMHandler = async (message) => {
   }
   
   const project = projects[projectNum];
-
-  user.todoistProjectId = project.id;
   
+  user.todoistProjectId = project.id;
   await user.save();
   
   sendDirectMessage( userId, `${TEXTS.TWEETS_SAVED_TO}${project.name}`);
@@ -107,15 +93,12 @@ const handleProject: DMHandler = async (message) => {
    * If true, adds to account
    * If false, does nothing
    */
-const handleDefaultDM: DMHandler = async (message) => {
+const handleDefaultDM: DMHandlerFunction = async (message, user) => {
   const urls = message.message_data.entities.urls as URLEntity[];
   const tweetURLEntity = urls.find(url => url.display_url.startsWith('twitter.com/')); // is or not a tweet DM
   if (!tweetURLEntity) return handleInvalidDM(message);
   
   const userId = message.sender_id;
-  
-  const user = await findUser(userId);
-  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
   
   const { todoistToken, todoistProjectId: projectId } = user;
   const apiToken = decryptString(todoistToken);
@@ -140,30 +123,27 @@ const handleDefaultDM: DMHandler = async (message) => {
   sendDirectMessage(userId, TEXTS.ADDED_TO_ACCOUNT);
 };
   
-const handleInvalidDM: DMHandler = async (message) => {
+const handleInvalidDM = async (message) => {
   const userId = message.sender_id;
   sendDirectMessage(userId, generateInvalidDMText(message.sender_name));
 };
 
-const handleInit: DMHandler = async (message) => {
+const handleInit: DMHandlerFunction = async (message) => {
   const userId = message.sender_id;
   sendDirectMessage(userId, generateInitText(userId));
 };
 
-const handleHelp: DMHandler = async (message) => {
+const handleHelp: DMHandlerFunction = async (message) => {
   const userId = message.sender_id;
   sendDirectMessage(userId, TEXTS.HELP);
 };
 
-const handleMain = async (message: TWDirectMessage) => {
+const handleMain: DMHandlerFunction = async (message: TWDirectMessage, user) => {
   const urls = message.message_data.entities.urls as URLEntity[];
   const tweetURLEntity = urls.find(url => url.display_url.startsWith('twitter.com/')); // is or not a tweet DM
   if (!tweetURLEntity) return handleInvalidDM(message);
 
   const userId = message.sender_id;
-
-  const user = await findUser(userId);
-  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
   
   const { todoistToken, todoistProjectId: projectId } = user;
   const apiToken = decryptString(todoistToken);
@@ -191,15 +171,12 @@ const handleMain = async (message: TWDirectMessage) => {
   sendDirectMessage(userId, TEXTS.ADDED_TO_ACCOUNT);
 };
 
-const handleThread = async (message: TWDirectMessage) => {
+const handleThread: DMHandlerFunction = async (message: TWDirectMessage, user) => {
   const urls = message.message_data.entities.urls as URLEntity[];
   const tweetURLEntity = urls.find(url => url.display_url.startsWith('twitter.com/')); // is or not a tweet DM
   if (!tweetURLEntity) return handleInvalidDM(message);
 
   const userId = message.sender_id;
-
-  const user = await findUser(userId);
-  if (!user) return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: USER_NOT_FOUND');
   
   const { todoistToken, todoistProjectId: projectId } = user;
   const apiToken = decryptString(todoistToken);

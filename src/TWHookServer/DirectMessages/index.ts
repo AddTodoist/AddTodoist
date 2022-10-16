@@ -14,7 +14,7 @@ export const handleDirectMessage = async (message: TWDirectMessage) => {
   const { text } = message.message_data;
   const command = text.split(' ')[0].toLowerCase();
 
-  return DMHandler[command] ? DMHandler[command](message) : DMHandler.handleDefaultDM(message, null);
+  return DMHandler[command] ? DMHandler[command](message) : DMHandler.DEFAULT(message, null);
 };
 
 export const getMessage = (event): TWDirectMessage =>  {

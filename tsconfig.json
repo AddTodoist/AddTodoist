@@ -4,6 +4,7 @@
     "baseUrl": "src",
     "module": "esnext",
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "target": "esnext",
     "moduleResolution": "node",
     "outDir": "dist",
