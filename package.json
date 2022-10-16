@@ -15,7 +15,7 @@
     "watch-webhook": "nodemon dist/server-webhook.js"
   },
   "author": "David Jiménez <dubisdev@gmail.com> (https://dubis.dev)",
-  "license": "Elastic-2.0",
+  "license": "SEE LICENSE IN LICENSE.md",
   "devDependencies": {
     "@jgoz/esbuild-plugin-typecheck": "2.0.0",
     "@semantic-release/changelog": "6.0.1",
