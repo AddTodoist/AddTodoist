@@ -1,18 +1,4 @@
-import { handleConfig, handleProject, handleDefaultDM, handleDelete, handleDeleteAll, handleInit, handleMain, handleHelp, handleThread } from './handlers';
-import { handleSettings } from './settings/handleSettings';
-
-const handlers: Record<VALID_MESSAGES, DMHandler> = {
-  '/init': handleInit,
-  '/help': handleHelp,
-  '/project': handleProject,
-  '/config': handleConfig,
-  '/delete': handleDelete,
-  '/deleteall': handleDeleteAll,
-  '/settings': handleSettings,
-  '#main': handleMain,
-  '#thread': handleThread,
-  DEFAULT: handleDefaultDM,
-};
+import DMHandler from './DMHandler';
 
 export const directMessageRecieved = (event) => (
   event.direct_message_events
@@ -22,10 +8,13 @@ export const directMessageRecieved = (event) => (
 );
 
 export const handleDirectMessage = async (message: TWDirectMessage) => {
+  // Temporal fix for the bug that makes the bot answer before the user
+  await new Promise(res => setTimeout(res, 1000));
+
   const { text } = message.message_data;
   const command = text.split(' ')[0].toLowerCase();
 
-  return handlers[command] ? handlers[command](message) : handlers.DEFAULT(message);
+  return DMHandler[command] ? DMHandler[command](message) : DMHandler.handleDefaultDM(message, null);
 };
 
 export const getMessage = (event): TWDirectMessage =>  {
