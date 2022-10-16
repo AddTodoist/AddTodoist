@@ -31,13 +31,13 @@ const requestListener: RequestListener = async (req, res) => {
 
   if (path === '/usercount') {
     const count = await UserInfo.countDocuments();
-    const TWO_HOURS_IN_SECONDS = 60 * 60 * 2;
+    const HALF_AN_HOUR_IN_SECONDS = 60 * 30;
     // https://shields.io/endpoint
     const shieldResponse = {
       schemaVersion: 1,
       label: 'Total Users',
       message: String(count),
-      cacheSeconds: TWO_HOURS_IN_SECONDS
+      cacheSeconds: HALF_AN_HOUR_IN_SECONDS
     };
     return res.writeHead(200).end(JSON.stringify(shieldResponse));
   }
