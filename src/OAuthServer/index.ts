@@ -1,12 +1,13 @@
 import { createServer, RequestListener } from 'http';
 import { parse, URL } from 'url';
-import { Project, TodoistApi } from '@doist/todoist-api-typescript';
+import { Project } from '@doist/todoist-api-typescript';
 import axios from 'axios';
 import { sendDirectMessage } from 'TWAPI';
 import TEXTS from './Texts.js';
 import UserInfo from 'DB';
 import { encryptString, hashId } from 'DB/encrypts.js';
 import Bugsnag from 'bugsnag';
+import { getTodoistProjects } from 'utils/todoist.js';
 
 export async function setupOAuthServer() {
   const server = createServer(requestListener);
@@ -75,7 +76,6 @@ const requestListener: RequestListener = async (req, res) => {
       await user.save();
     } else {
       Bugsnag.notify(err);
-      console.log(new Date(), err);
       return sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 10`);
     }
   }
@@ -85,10 +85,8 @@ const requestListener: RequestListener = async (req, res) => {
   let projects: Project[];
 
   try {
-    const todoistClient = new TodoistApi(token);
-    projects = await todoistClient.getProjects();
+    projects = await getTodoistProjects(token);
   } catch (err) {
-    console.log(err);
     Bugsnag.notify(err);
     return sendDirectMessage(twId, `${TEXTS.GENERAL_WRONG}: err 11`);
   }
