@@ -8,7 +8,7 @@ export const getProjectNumFromMessage = ( message: string ) => {
   if (typeof message !== 'string') return null;
 
   // regex for digits: /\d+/
-  const isValidProjectNum = message.trim().match(/^\/project (\d+)$/);
+  const isValidProjectNum = message.trim().match(/^\/project (\d+)$/i);
 
   if (!isValidProjectNum) return null;
   return Number(isValidProjectNum[1]);
