@@ -159,9 +159,10 @@ const handleMain: DMHandlerFunction = async (message: TWDirectMessage, user) => 
   const content = await getDefaultTaskContent(originalTweet.url); // TODO - improve this as we already have the content and is not necessary to get it again
 
   try {
+    const labels = user.threadLabel === null ? [] : user.threadLabel === undefined ? ['🧵Thread'] : [user.threadLabel];
     await addTodoistTask({
       token: apiToken,
-      labels: ['🧵Thread'],
+      labels,
       content,
       projectId
     });
@@ -190,10 +191,11 @@ const handleThread: DMHandlerFunction = async (message: TWDirectMessage, user) =
 
   if (!thread) return; // TODO - Add tweet as a task (it can fail if the tweet is not public or if it is more than 7 days old [see twitter api docs])
 
+  const labels = user.threadLabel === null ? [] : user.threadLabel === undefined ? ['🧵Thread'] : [user.threadLabel];
   const mainTask = await addTodoistTask({
     token: apiToken,
     projectId,
-    labels: ['🧵Thread'],
+    labels,
     content: thread[0].text
   });
 

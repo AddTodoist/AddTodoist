@@ -48,6 +48,10 @@ declare global {
      * If true, the user will not receive any response from the bot when saving a tweet
      */
     noResponse?: true;
+    /**
+     * The label to add to the task when added from thread
+     */
+    threadLabel?: string | null;
   }
 
 }

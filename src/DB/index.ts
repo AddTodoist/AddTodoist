@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema<IUserInfo>({
   todoistToken: { type: String, required: true },
   todoistProjectId: { type: String, required: true },
   noResponse: { type: Boolean, required: false },
+  threadLabel: { type: String, required: false },
 });
 
 const UserInfo = mongoose.model<IUserInfo>('users', userSchema);
