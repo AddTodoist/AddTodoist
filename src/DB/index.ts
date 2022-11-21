@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema<IUserInfo>({
   _id: { type: String, required: true },
   todoistToken: { type: String, required: true },
   todoistProjectId: { type: String, required: true },
-  todoistSettings: { type: Object, required: false },
+  noResponse: { type: Boolean, required: false },
 });
 
 const UserInfo = mongoose.model<IUserInfo>('users', userSchema);

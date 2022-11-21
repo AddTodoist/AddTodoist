@@ -1,6 +1,6 @@
 import { createServer, RequestListener } from 'http';
 import { parse, URL } from 'url';
-import { Project } from '@doist/todoist-api-typescript';
+import type { Project } from '@doist/todoist-api-typescript';
 import axios from 'axios';
 import { sendDirectMessage } from 'TWAPI';
 import TEXTS from './Texts.js';

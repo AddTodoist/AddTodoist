@@ -45,9 +45,9 @@ declare global {
      */
     todoistProjectId: string;
     /**
-     * An object that contains the user's settings
+     * If true, the user will not receive any response from the bot when saving a tweet
      */
-    todoistSettings?: Record<string, string> | null
+    noResponse?: true;
   }
 
 }

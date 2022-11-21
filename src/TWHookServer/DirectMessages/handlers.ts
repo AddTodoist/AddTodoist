@@ -120,6 +120,8 @@ const handleDefaultDM: DMHandlerFunction = async (message, user) => {
     return sendDirectMessage(userId, TEXTS.BAD_TOKEN + '\nErr: TDS_ERROR');
   }
   
+  if (user.noResponse) return;
+
   sendDirectMessage(userId, TEXTS.ADDED_TO_ACCOUNT);
 };
   

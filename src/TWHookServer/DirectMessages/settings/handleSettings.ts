@@ -1,6 +1,6 @@
 import { sendDirectMessage } from 'TWAPI';
 
-const availableSettings = ['reset'];
+const availableSettings = ['reset', 'response'];
 
 export const handleSettings: DMHandlerFunction = async (message, user) => {
   const userId = message.sender_id;
@@ -15,9 +15,17 @@ export const handleSettings: DMHandlerFunction = async (message, user) => {
   if (!availableSettings.includes(setting)) return sendDirectMessage(userId, '🔴 Invalid setting');
 
   if (setting === 'reset') {
-    user.todoistSettings = null;
+    user.noResponse = undefined;
     await user.save();
     return sendDirectMessage(userId, '✅ Settings reset to default');
+  }
+
+  if (setting === 'response') {
+    if (!['true', 'false', undefined].includes(value)) return sendDirectMessage(userId, '🔴 Invalid value. Please use true or false');
+    if (value === 'false') user.noResponse = true;
+    if (value === 'true' || value === undefined) user.noResponse = undefined;
+    await user.save();
+    return sendDirectMessage(userId, `✅ Setting ${setting} set to ${value || 'true'}`);
   }
   
 };

@@ -2,6 +2,7 @@ import { sendDirectMessage } from 'TWAPI';
 import { findUser } from 'utils/db';
 import TEXTS from './Texts';
 import { handleConfig, handleProject, handleDefaultDM, handleDelete, handleDeleteAll, handleInit, handleMain, handleHelp, handleThread } from './handlers';
+import { handleSettings } from './settings/handleSettings';
 
 // a decorator that checks if the user has an account in the db
 function withUser() {
@@ -43,6 +44,11 @@ export default class DMHandler {
   @withUser()
   static async '/deleteall'(message: TWDirectMessage, user: DBUserInstance) {
     return handleDeleteAll(message, user);
+  }
+
+  @withUser()
+  static async '/settings'(message: TWDirectMessage, user: DBUserInstance) {
+    return handleSettings(message, user);
   }
 
   @withUser()
