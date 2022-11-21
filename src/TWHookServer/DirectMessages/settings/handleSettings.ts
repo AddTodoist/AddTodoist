@@ -18,6 +18,8 @@ export const handleSettings: DMHandlerFunction = async (message, user) => {
   if (setting === 'reset') {
     user.noResponse = undefined;
     user.threadLabel = undefined;
+    user.tweetLabel = undefined;
+
     await user.save();
     return sendDirectMessage(userId, '✅ Settings reset to default');
   }
@@ -38,6 +40,15 @@ export const handleSettings: DMHandlerFunction = async (message, user) => {
   
     await user.save();
     return sendDirectMessage(userId, `✅ Setting ${setting} set to ${rawValue || 'default (🧵Thread)'}`);
+  }
+
+  if (setting === 'tweet-label') {
+    if (rawValue === undefined) user.tweetLabel = undefined;
+    else if (rawValue.toLowerCase() === 'null') user.tweetLabel = null;
+    else user.tweetLabel = rawValue;
+  
+    await user.save();
+    return sendDirectMessage(userId, `✅ Setting ${setting} set to ${rawValue || 'default (🐦Tweet)'}`);
   }
   
 };

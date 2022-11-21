@@ -52,6 +52,10 @@ declare global {
      * The label to add to the task when added from thread
      */
     threadLabel?: string | null;
+    /**
+     * The label to add to the task when added from normal tweet
+     */
+    tweetLabel?: string | null;
   }
 
 }

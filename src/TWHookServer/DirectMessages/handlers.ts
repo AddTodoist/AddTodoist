@@ -109,8 +109,9 @@ const handleDefaultDM: DMHandlerFunction = async (message, user) => {
     : getUserCustomTaskContent(message, tweetURLEntity);
   
   try {
+    const labels = user.tweetLabel === null ? [] : user.tweetLabel === undefined ? ['🧵Thread'] : [user.tweetLabel];
     await addTodoistTask({
-      labels: ['🐦Tweet'],
+      labels,
       token: apiToken,
       content: taskContent,
       projectId
