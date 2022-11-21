@@ -40,6 +40,16 @@ The bot features can be accessed by sending one of these commands (⚠️ Don't 
 
 <img src="https://user-images.githubusercontent.com/77246331/186976402-3f119743-c63f-4507-8f78-e7e0362d95eb.png" width="700">
 
+## Settings
+
+You can customize the bot's behavior by using the `/settings` command. Currently, you can change the following settings:
+
+- **`response`**: The bot will respond to your DMs with a message confirming the tweet has been saved to your Todoist account. You can disable this feature by sending `/settings response false` by DM to the bot.
+
+- **`tweet-label`** and **`thread-label`**: The bot will add a label to the saved tweets. You can change this labels by sending `/settings thread-label label` and `/settings tweet-label label` by DM to the bot. By default, this labels are "🐦Tweet" and "🧵Thread". You can also disable this feature by sending `/settings thread-label null` and `/settings tweet-label null` by DM to the bot.
+
+- **`reset`**: If you want to reset all your settings, you can do it by sending `/settings reset` by DM to the bot. This will reset all your settings to their default values.
+
 ## Privacy
 
 - The only collected information from users is their token, which is encrypted and stored in a secure database.
