@@ -1,0 +1,6 @@
+[submodule "dm-server"]
+	path = dm-server
+	url = https://github.com/AddTodoist/dm-server
+[submodule "oauth-server"]
+	path = oauth-server
+	url = https://github.com/AddTodoist/oauth-server
